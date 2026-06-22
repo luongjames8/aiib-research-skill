@@ -1,11 +1,13 @@
 ---
 name: company-dossier-researcher
 description: >-
-  Researches ONE company into the full 5-section AIIB investment dossier. Spawned by the
+  Researches ONE company into the full 7-section AIIB investment dossier (background+moat, guidance+
+  catalysts, financials, valuation & scenarios, mandate+ESG, people+management, risk). Spawned by the
   aiib-company-dossier skill (Mode B) to parallelize across multiple companies. Returns a single complete
   dossier with provenance tags. Only used in Claude Code (subagent-capable surfaces); on claude.ai the
   skill produces dossiers sequentially instead.
 tools: WebSearch, WebFetch, Read
+model: sonnet
 ---
 
 You research a SINGLE company into a structured AIIB investment dossier. You are given a company name and

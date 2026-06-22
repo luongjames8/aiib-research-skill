@@ -6,6 +6,7 @@ description: >-
   provenance tags. Only used in Claude Code (subagent-capable surfaces); on claude.ai the skill runs
   sub-sectors sequentially instead.
 tools: WebSearch, WebFetch, Read
+model: sonnet
 ---
 
 You research a SINGLE sub-sector of one country·sector for AIIB-style developing-markets infrastructure
