@@ -2,7 +2,7 @@
 name: aiib-company-dossier
 description: >-
   Mode B of AIIB-style investment research: turn a company into a structured, sourced investment dossier.
-  Given a company (optionally with country/sector context, or a row from an aiib-sector-scan shortlist),
+  Given a company (optionally with sub-sector context, or a candidate from the aiib-company-sourcing list),
   produce a structured dossier — background + competitive moat, forward guidance & catalysts, financials
   (margins, earnings quality, peer multiples), valuation & bull/base/bear scenarios, AIIB-mandate
   alignment incl. ESG (vs. the 6 sectors + 4 thematic priorities), key people & management quality, and
@@ -11,7 +11,7 @@ description: >-
   figures are visible. Use this whenever the user wants a company deep-dive,
   investment dossier, due-diligence brief, company profile, or to assess a company as an investment —
   especially for infrastructure / development-finance / emerging-market investing, or when they hand over
-  a shortlist from the aiib-sector-scan skill (Mode A). Trigger even if they never say "dossier" or
+  a candidate from the aiib-company-sourcing skill (Mode S). Trigger even if they never say "dossier" or
   "AIIB" — e.g. "is <company> a good investment", "research <company> for me", "profile <company>",
   "what's the investment case for <company>". Web-search floor; uses subagents when available, runs
   sequentially when not.
@@ -19,8 +19,9 @@ description: >-
 
 # AIIB Company Dossier (Mode B)
 
-Top-down funnel, stage two: **company → structured investment dossier.** Consumes the shortlist produced
-by the **aiib-sector-scan** skill (Mode A), or runs standalone on any named company.
+Top-down funnel, final stage: **company → structured investment dossier.** Consumes candidates from the
+**aiib-company-sourcing** skill (Mode S) and uses the sub-sector economics from **aiib-sector-scan**
+(Mode A) as screening context — or runs standalone on any named company.
 
 Integrity is the whole point. This dossier feeds an investment decision, so a confidently-stated wrong
 number is worse than an honest gap. A private company with thin public data yields a thin dossier — that
@@ -31,7 +32,7 @@ by source, and keep your own inferences visibly separate from sourced facts.
 
 - **Required:** a company name.
 - **Optional:** country / sector / sub-sector context (improves disambiguation and mandate scoring),
-  or a shortlist row from Mode A. Multiple companies → produce one dossier each.
+  or a candidate from Mode S sourcing. Multiple companies → produce one dossier each.
 
 ## Workflow
 

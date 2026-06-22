@@ -1,15 +1,26 @@
 # AIIB Investment Research Skills
 
-Two portable [Agent Skills](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview) for
+Three portable [Agent Skills](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview) for
 AIIB-style developing-markets infrastructure investment research, usable in **claude.ai** (web + desktop)
-and **Claude Code** (terminal + web). A top-down funnel in two modes:
+and **Claude Code** (terminal + web). A top-down deal-sourcing funnel in three stages:
+
+```
+Mode A  sector scan      → sub-sector economics + anchors          (context)
+Mode S  company sourcing  → graph-expand anchors → PRIVATE candidates (the longlist)
+Mode B  company dossier   → deep-dive each candidate, in sector context (the deep-dive)
+```
 
 - **Mode A — `aiib-sector-scan`** — input `Country · Sector` (e.g. "Indonesia · Renewables") → exhaustive
-  sub-sector deep-dive (9-field A–I economics per sub-sector) + a ranked, mandate-fit **company shortlist**.
-- **Mode B — `aiib-company-dossier`** — input a company (or a Mode-A shortlist row) → a structured
-  dossier: background + moat · forward guidance & catalysts · financials (margins, earnings quality, peer
-  multiples) · valuation & bull/base/bear scenarios · AIIB-mandate alignment incl. ESG · key people &
-  management quality · risk assessment.
+  sub-sector deep-dive (9-field A–I economics per sub-sector) + the **anchors** (listed leaders, DFI
+  investees, deal winners) that sourcing expands from.
+- **Mode S — `aiib-company-sourcing`** — input a sub-sector (+ its economics) → a ranked list of mostly-
+  **PRIVATE**, mandate-fit companies, found by **graph-expanding anchors** (competitors, suppliers,
+  customers, co-investors, PE/DFI fund-siblings), **fund-following**, **value-chain decomposition**, and
+  sweeping deal trackers / PPP pipelines / credit-rating lists / local-language sources.
+- **Mode B — `aiib-company-dossier`** — input a company (or a Mode-S candidate) → a structured dossier,
+  screened **within its sub-sector economics**: background + moat · forward guidance & catalysts ·
+  financials (margins, earnings quality, peer multiples) · valuation & bull/base/bear scenarios ·
+  AIIB-mandate alignment incl. ESG · key people & management quality · risk assessment.
 
 ### Design principles
 
@@ -75,6 +86,7 @@ used for data analysis cannot make external web requests or API calls"*
 ### claude.ai (web / desktop) — Pro, Max, Team, Enterprise (code execution enabled)
 Each skill folder is self-contained. In **Settings → Capabilities → Skills**, upload each of:
 - `.claude/skills/aiib-sector-scan/`
+- `.claude/skills/aiib-company-sourcing/`
 - `.claude/skills/aiib-company-dossier/`
 
 (Subagents in `.claude/agents/` are not used on claude.ai; the skills detect this and run sequentially.)

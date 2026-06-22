@@ -11,9 +11,9 @@ Requires a ChatGPT plan that can create GPTs (Plus / Pro / Team / Enterprise / E
 1. **Create a GPT** — ChatGPT → your name → **My GPTs** → **Create a GPT** → **Configure** tab.
 2. **Name / description** — e.g. "AIIB Investment Research"; description from this repo's README.
 3. **Instructions** — paste the text from `INSTRUCTIONS.md` (everything **below the `---`**) into the
-   Instructions box. (It's ~5.8k characters, under ChatGPT's instruction limit.)
-4. **Knowledge** — upload all five files from `knowledge/`:
-   `aiib-mandate.md`, `ai-template.md`, `dossier-template.md`, `provenance.md`, `data-sources.md`.
+   Instructions box. (It's ~7.3k characters, under ChatGPT's instruction limit.)
+4. **Knowledge** — upload all six files from `knowledge/`:
+   `aiib-mandate.md`, `ai-template.md`, `sourcing-methods.md`, `dossier-template.md`, `provenance.md`, `data-sources.md`.
 5. **Capabilities** — enable **Web search** (required — it's the data floor). You may also enable
    **Code Interpreter & Data Analysis** so the GPT can crunch files the user uploads. Image gen / Canvas
    are not needed.
@@ -21,7 +21,8 @@ Requires a ChatGPT plan that can create GPTs (Plus / Pro / Team / Enterprise / E
 
 ## Usage
 
-- **Mode A (sector):** "Research Indonesia · Renewables for AIIB." → sub-sector deep-dive + shortlist.
+- **Mode A (sector):** "Research Indonesia · Renewables for AIIB." → sub-sector deep-dive + anchors.
+- **Mode S (sourcing):** "Find private offshore-wind developers in Vietnam." → ranked private-candidate list.
 - **Mode B (company):** "Build a dossier on <company>." → 7-section dossier.
 
 ## Important limits on ChatGPT (verified from OpenAI docs)
