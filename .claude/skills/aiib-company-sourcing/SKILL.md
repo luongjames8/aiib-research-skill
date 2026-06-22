@@ -40,34 +40,32 @@ Geothermal", "Star Energy Group" → one). Then assign **one worker per DISTINCT
 non-overlapping brief. (You can't share state across parallel workers, so the lever is non-overlapping
 assignment up front + dedup on the way out — Step 3 — not preventing every redundant search.)
 
-### Step 2 — Expand to candidates (the methods)
-Apply the toolkit in `references/sourcing-methods.md`: **graph expansion** from each anchor (competitors,
-suppliers, customers, JV partners, **PE/DFI fund-siblings**), **fund-following** (enumerate the portfolios
-of funds/DFIs active here), **value-chain decomposition** (a player per link), the **source sweep** (deal
-trackers, PPP pipelines, credit-rating lists), and **local-language mining** (the biggest private-tail
-unlock). Cast several nets — overlap between methods is a quality signal.
+### Step 2 — Expand ITERATIVELY, in rounds, until dry
+Sourcing is **open-ended** — you don't know how many companies exist — so expand in **rounds** carrying a
+running **found-set**, NOT one big parallel blast. Each round finds names the previous rounds missed and
+is told what's already found, so **no search is wasted re-discovering known names**. The methods
+(`references/sourcing-methods.md`): graph expansion (competitors, suppliers, customers, JV partners,
+PE/DFI fund-siblings), fund-following, value-chain decomposition, source sweep, local-language mining.
 
-**Delegation — REQUIRED when a subagent tool exists (Claude Code).**
+**The loop — the orchestrator owns it (this is the safe place for the recursion):**
+1. **Seed.** `found = {}` (the deduped anchors from Step 1 are your round-1 launch points).
+2. **Round.** Spawn a **small batch (~3–4)** of `source-expander` workers, each given: one anchor/method
+   to expand **and the current `found` list**, with the instruction *"return only companies NOT already
+   in this list."*
+3. **Dedup** the round's returns into `found` (`scripts/dedup_candidates.py`).
+4. **Decide.** If the round added **≥ ~3 new names**, run another round — expand from the most promising
+   **new** names + any method/value-chain link not yet worked. If it added **< ~3 (dry)** or you've hit
+   the budget, **stop.**
 
-⛔ **Use `subagent_type: source-expander` — NEVER `general-purpose`.** This is the single most important
-rule in this skill. `general-purpose` has the **Agent tool**, so those workers **re-delegate and spawn
-their own children**, which spawn more — a runaway tree (one real run hit ~2,800 calls / 174 agents).
-`source-expander` ships with tools **WebSearch/WebFetch/Read only — no Agent tool — so it physically
-cannot recurse.** Always pass `subagent_type: "source-expander"`.
+⛔ **`subagent_type: source-expander` ONLY — NEVER `general-purpose`.** general-purpose has the Agent tool
+and workers re-delegate into a runaway tree (one real run hit ~2,800 calls / 174 agents); source-expander
+has **WebSearch/WebFetch/Read only — no Agent tool — so it can't recurse.** The ORCHESTRATOR loops; the
+workers never do.
 
-**Dedup anchors BEFORE spawning, then one worker per anchor.** Collapse overlapping anchors first (don't
-spawn three workers that all chase Star Energy / Salak). Spawn **one `source-expander` per distinct
-anchor — aim for ~8–12 total, hard cap ~15.** Do **not** spawn per micro value-chain link (links ×
-players explodes); fold value-chain coverage into the per-anchor workers' briefs instead.
-
-**Per-worker search budget (put it in each worker's prompt):** "**max ~10 searches; prefer WebSearch;
-only WebFetch a page when a search snippet is insufficient.**" (WebFetch is the expensive call and often
-403s — keep it rare.)
-
-**Fan-out width + waves:** at most **~6 workers concurrent**; more anchors than that → dispatch in waves
-of ~6. As orchestrator you only set/dedup anchors, spawn the source-expander workers, and merge their
-returns — never run the expansion searches yourself. Only when **no** subagent tool exists (claude.ai
-chat app) do you expand sequentially yourself, within the same search budget.
+**Bounds (keep it safe):** small batch per round (~3–4 concurrent, not all anchors at once) · per-worker
+budget "**max ~10 searches; WebSearch first; WebFetch only when a snippet won't do**" (WebFetch is
+expensive + often 403s) · **round cap ~4–5** even if not fully dry. On **claude.ai** (no subagents) run
+the same rounds sequentially yourself, within the budget.
 
 ### Step 3 — Merge, DEDUP, screen, rank
 As workers return, merge all candidate lists and **dedup by normalized name**. A name surfaced by
@@ -93,7 +91,10 @@ Lead with the private names. This list is the input to **aiib-company-dossier** 
 few worth dossiering first.
 
 ## Self-check before returning
-- [ ] Did I expand from anchors via **multiple** methods (graph + funds + value-chain + sweep), not one?
+- [ ] Did I expand in **rounds with a found-set** (each round told what's already found), not one blast —
+      and stop when a round went **dry** (or at the round cap)?
+- [ ] Did I expand via **multiple** methods (graph + funds + value-chain + sweep), not one?
+- [ ] Workers were `source-expander` (NEVER general-purpose), small batch per round?
 - [ ] Is the list **mostly PRIVATE / unlisted** operators (the point of this stage)?
 - [ ] Deduped, light-mandate-screened, and **ranked** (not a raw dump)?
 - [ ] Every candidate tagged with how-found + provenance (🟢/🔵/⚠️)?

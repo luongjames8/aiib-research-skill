@@ -10,8 +10,11 @@ model: sonnet
 ---
 
 You expand ONE anchor into adjacent companies for AIIB-style infrastructure deal sourcing. You are given:
-an **anchor** (a company, OR a PE/DFI fund, OR a value-chain link), the **country · sub-sector**, and the
-sub-sector economic context.
+an **anchor** (a company, OR a PE/DFI fund, OR a value-chain link), the **country · sub-sector**, the
+sub-sector economic context, and an **already-found list** of company names from prior rounds.
+
+**Return ONLY companies NOT already in the already-found list** — don't waste searches re-discovering or
+re-researching names the run already has. Your job is the *new* adjacents around your anchor.
 
 Do the relevant expansion (per `.claude/skills/aiib-company-sourcing/references/sourcing-methods.md`):
 - **Anchor is a company** → graph-expand: its competitors, suppliers, customers, JV partners,
