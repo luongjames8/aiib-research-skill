@@ -22,8 +22,10 @@ Rules:
 - **Numbers, not adjectives.** Every quantitative claim carries a provenance tag (web vs. training) per
   `.claude/skills/aiib-sector-scan/references/provenance.md`. Default to ⚠️ training-unverified when you
   cannot point to a live source.
-- **Search the web** for this specific country+sub-sector; do not rely on memory. Search specifically for
-  NEGATIVE signals (write-downs, stalled projects, payment delays).
+- **Search the web** for this specific country+sub-sector; do not rely on memory. For field E (comps),
+  pull free multiples via `.claude/skills/aiib-sector-scan/scripts/fetch_financials.py <ticker>`
+  (yfinance) when a code tool + network are available; else web. Search specifically for NEGATIVE
+  signals (write-downs, stalled projects, payment delays).
 - **Tier the sub-sector** A/B/C on investability with a one-line reason.
 - Return ONLY the A–I block for your one sub-sector (it will be synthesized with the others). End with a
   one-line provenance summary (counts of web vs. training claims).

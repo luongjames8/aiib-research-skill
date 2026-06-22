@@ -48,6 +48,10 @@ Run **every** enumerated sub-sector through the 9-field A–I template in `refer
 blow-ups · IRR estimate · named risks · competitive landscape). Numbers, not adjectives. Include the
 bad news. Tier each A/B/C on investability.
 
+**Data tiers** (`references/data-sources.md`): for field E (valuation & comps), pull free listed-comp
+multiples with `scripts/fetch_financials.py <ticker>` (yfinance — international tickers via exchange
+suffixes) when a code tool + network are available; else gather comps from web search. Tag by provenance.
+
 **Delegation (the portability rule):** If you have a Task/subagent tool available (Claude Code), spawn
 one `subsector-researcher` subagent **per sub-sector** and run them in parallel, then synthesize. If you
 do not (claude.ai chat app), work through the sub-sectors **sequentially** in this context. The output

@@ -1,46 +1,82 @@
 # Company Dossier Template
 
-The fixed 5-section structure for every company dossier. Produce all five, every claim
-provenance-tagged (see provenance.md). The dossier is an investment-screening artifact, so missing data
-must be flagged explicitly, never fabricated.
+The dossier structure: the **5 core sections** plus **2 analytical sections** (Valuation & scenarios,
+Risk) adapted from institutional equity-research practice for AIIB-style direct/PE infrastructure
+investing. Produce every section; tag every claim by provenance (`provenance.md`); pull hard numbers
+from Tier-1 free data when available (`data-sources.md` + `scripts/fetch_financials.py`), else web search.
+This is an investment-screening artifact: missing data is flagged, never fabricated.
+
+**Adapted, not copied:** the public-equity *trading* apparatus (technical analysis, options flow, a
+12-month BUY/SELL/HOLD price target) is intentionally **omitted** — AIIB makes conviction-based direct
+investments, not trades. Keep the conviction + mandate-fit framing, not a trading rating.
 
 ## 1. Background
 
-What the company is and does. Founding / ownership structure (listed? PE-backed? state-owned? family?),
-parent/group, geographies of operation, core business lines, scale (employees, asset base), position in
-its value chain. One paragraph of orientation, then the specifics.
+What the company is and does. Founding / ownership (listed? PE-backed? state-owned? family?),
+parent/group, geographies, core business lines, scale (employees, asset base), and **position in the
+value chain**. Then a **competitive-positioning / moat** read: market share, durable advantages
+(scale, concession rights, network, cost), and whether the moat is widening or eroding.
 
-## 2. Forward guidance
+## 2. Forward guidance & catalysts
 
 The forward-looking picture: management guidance, stated strategy & expansion pipeline, capex plans,
-target markets/sub-sectors, analyst expectations, near-term catalysts and headwinds. Distinguish
-**company-stated guidance** (cite the source/date) from **your inference**. If no guidance is available,
-say so — do not invent targets.
+target markets/sub-sectors, **analyst consensus** (revenue/EPS where covered), and **capital-allocation
+priorities** (dividends, buybacks, capex, M&A). Then **catalysts**: near-term (0–6 mo — earnings,
+contract/auction wins, financial close) and medium-term (6–24 mo — pipeline conversion, policy
+changes). Distinguish **company-stated** (cite source/date) from **your inference**; if no guidance
+exists, say so — don't invent targets.
 
 ## 3. Financials
 
-Actual numbers where available, each tagged: revenue + growth, EBITDA / margins, net income, leverage
-(net debt / EBITDA), cash flow, key ratios, recent funding rounds / bond issuance / credit ratings, and
-listed-comparable multiples (EV/EBITDA, P/E) if applicable. Note the reporting period and currency.
-**Gaps are expected for private companies — flag each missing figure as `[not available]`, never guess.**
+Real numbers, each tagged; prefer the Tier-1 yfinance pull (`scripts/fetch_financials.py <ticker>`)
+for listed names, else filings/web. Cover:
+- **Performance** — revenue growth (YoY/QoQ), margins (gross / operating / EBITDA / net) **with
+  historical trend**, net income, **earnings quality** (GAAP vs. adjusted, one-time items).
+- **Balance sheet & cash** — leverage (net debt / EBITDA), debt maturity profile, liquidity, free cash
+  flow, capital intensity (capex / revenue).
+- **Funding** — recent rounds / bond issuance / credit ratings (Pefindo, CRISIL, Fitch, etc.).
+- **Peer-comparison multiples** — vs. sector median: P/E (trailing + forward), EV/EBITDA, P/S, P/B, and
+  sector-specific metrics. Present as a small comp table.
+Note reporting period + currency. **Private / project companies: expect gaps — mark `[not available]`,
+never guess.**
 
-## 4. AIIB-mandate alignment
+## 4. Valuation & scenarios
 
-Score the company against the mandate using `aiib-mandate.md` (cite `[ref: aiib-mandate.md]`):
+Where data supports it: **comparable-company** (peer multiples applied), **precedent-transaction**
+(sector M&A multiples), and **DCF** (FCF projection + WACC + terminal value, with the key assumptions
+stated). Then **scenario analysis** — bull / base / bear with **probability weights** (e.g. 25/55/20),
+each naming its growth/margin/execution assumptions. For private or infra-project targets, express the
+output as **investment conviction** (High / Medium / Low) anchored to a value range and IRR, **not** a
+12-month share-price target. State explicitly when data is too thin for a real valuation.
+
+## 5. AIIB-mandate alignment (incl. ESG)
+
+Score against the mandate using `aiib-mandate.md` (cite `[ref: aiib-mandate.md]`):
 - **Sector match** — which of AIIB's 6 sectors (or "other productive sectors") + why.
-- **Theme match** — which of the 4 thematic priorities (Green / Connectivity / Technology-enabled /
-  Private Capital Mobilization) + the specific reason.
-- **Climate / Paris alignment** — relevant given AIIB's >50% climate-finance target.
+- **Theme match** — which of the 4 thematic priorities + the specific reason.
+- **ESG** — Environmental (carbon/transition + physical climate risk; **Paris alignment**, given AIIB's
+  >50% climate target), Social (community/stakeholder, safeguards), Governance (covered in §6).
 - **Verdict** — `Strong fit` / `Partial fit` / `Out of mandate`, with the bear case (why AIIB might pass).
 
-## 5. Key people
+## 6. Key people & management quality
 
-Founders, CEO, CFO, chair, and notable board members / major shareholders. For each: name, role, and a
-one-line relevant background (prior firms, track record, red flags). Note board control / PE-sponsor
-representation. If names can't be verified live, tag ⚠️ and flag for verification.
+Founders, CEO, CFO, chair, notable board, major shareholders — name, role, one-line background (prior
+firms, track record, red flags). Then a **management-quality** read: execution track record,
+**capital-allocation discipline**, compensation alignment, and **governance / board effectiveness**
+(independence, related-party exposure, PE-sponsor control). If names can't be verified live, tag ⚠️.
+
+## 7. Risk assessment
+
+- **Company-specific** — operational (execution, key-person, technology/obsolescence, supply chain),
+  financial (leverage, refinancing, liquidity, FX/commodity exposure), regulatory/legal (licensing,
+  litigation, IP, tariff/offtaker risk).
+- **Macro** — for the company's markets: economic cycle, interest-rate sensitivity, currency, commodity,
+  policy. Name the specific transmission, not generic risk words.
 
 ## Quality rules
 
 - **Every section ends with a provenance summary line** (provenance.md rule 4).
-- **Never fabricate** financials, guidance, or people. Missing = `[not available]` or ⚠️, explicitly.
-- **Separate fact from inference** — label your analytical judgments as such, distinct from sourced claims.
+- **Never fabricate** financials, guidance, valuation, or people. Missing = `[not available]` / ⚠️.
+- **Separate fact from inference** — label analytical judgments distinctly from sourced claims.
+- **Adapt to the company** — a thinly-covered private infra firm yields a short dossier honestly; a
+  listed operator yields a full one. Don't pad, don't invent.

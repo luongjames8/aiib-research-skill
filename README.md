@@ -7,7 +7,9 @@ and **Claude Code** (terminal + web). A top-down funnel in two modes:
 - **Mode A — `aiib-sector-scan`** — input `Country · Sector` (e.g. "Indonesia · Renewables") → exhaustive
   sub-sector deep-dive (9-field A–I economics per sub-sector) + a ranked, mandate-fit **company shortlist**.
 - **Mode B — `aiib-company-dossier`** — input a company (or a Mode-A shortlist row) → a structured
-  **5-section dossier**: background · forward guidance · financials · AIIB-mandate alignment · key people.
+  dossier: background + moat · forward guidance & catalysts · financials (margins, earnings quality, peer
+  multiples) · valuation & bull/base/bear scenarios · AIIB-mandate alignment incl. ESG · key people &
+  management quality · risk assessment.
 
 ### Design principles
 
@@ -19,6 +21,20 @@ and **Claude Code** (terminal + web). A top-down funnel in two modes:
 - **Subagents where available, never required.** On Claude Code the skills delegate each sub-sector /
   company to a parallel subagent (`.claude/agents/`); on the claude.ai chat app (no subagents) they run
   sequentially. Same output either way.
+- **Tiered free data, web-search floor.** When a code tool + network are available, the skills pull free
+  structured financials directly — **yfinance** (broad international coverage), **SEC EDGAR**, **stooq**,
+  or **OpenBB**'s free providers — via the bundled `scripts/fetch_financials.py`, tagged 🟢; otherwise
+  they fall back to web search, and finally to ⚠️-tagged training knowledge. No API keys required.
+
+## Credits & licenses
+
+- This repo: **MIT** (see `LICENSE`).
+- The fundamental + qualitative analysis framework adapts **[claude-equity-research](https://github.com/quant-sentiment-ai/claude-equity-research)**
+  (MIT), reframed for AIIB-style direct/PE infrastructure investing — the public-equity *trading*
+  apparatus (technical analysis, options flow, 12-month price targets) is intentionally omitted.
+- **[OpenBB](https://github.com/OpenBB-finance/OpenBB)** is **AGPL-3.0** and is **not bundled** here; the
+  skills only invoke it at runtime *if the user already has it installed*. `yfinance` (Apache-2.0) and
+  SEC EDGAR cover the same free ground, so they are the default.
 
 ## Install
 
