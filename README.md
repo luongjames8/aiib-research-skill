@@ -42,6 +42,24 @@ degrades gracefully and the provenance tags always show which tier was used:
 chat app it still works end-to-end — it just leans on web search rather than direct data pulls when the
 sandbox has no network. Either way, every figure is provenance-tagged so you can see what it relied on.
 
+## Platform support
+
+The research **methodology** is cross-platform; the **packaging** and the **live-data tier** are
+Claude-native. Verified against vendor docs (Anthropic + OpenAI, early 2026):
+
+| Capability | Claude Code (terminal / web) | claude.ai chat | ChatGPT |
+|---|---|---|---|
+| Import as an auto-triggering **Skill** | ✅ | ✅ (Settings → Capabilities) | ❌ — rebuild as a **Custom GPT** (see [`ports/chatgpt-custom-gpt/`](ports/chatgpt-custom-gpt/)) |
+| **Subagent** parallel fan-out | ✅ (`.claude/agents/`, Sonnet) | ❌ sequential | ❌ sequential |
+| **Web-search** floor | ✅ | ✅ | ✅ (GPT "Web search" capability) |
+| **Live structured data** in-sandbox (yfinance / EDGAR) | ✅ pip + network | ⚠️ network is settings-dependent | ❌ sandbox can't make web/API calls — use file upload or a GPT **Action** |
+
+For **ChatGPT**, the methodology is delivered as a **Custom GPT** running on web search — see
+[`ports/chatgpt-custom-gpt/`](ports/chatgpt-custom-gpt/) (instructions + knowledge files + setup). The
+in-sandbox data pulls (`scripts/fetch_financials.py`) don't run there, because *"the Python environment
+used for data analysis cannot make external web requests or API calls"*
+([OpenAI docs](https://help.openai.com/en/articles/8437071-data-analysis-with-chatgpt)).
+
 ## Credits & licenses
 
 - This repo: **MIT** (see `LICENSE`).
