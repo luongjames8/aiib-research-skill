@@ -26,8 +26,10 @@ Rules:
   listed or private · provenance** (🟢 `[web: source, date]`, else ⚠️ `[training — unverified]`), per
   `.claude/skills/aiib-company-sourcing/references/provenance.md`.
 - Apply only a **light** mandate-fit sanity check (don't deep-score — that's the dossier's job).
-- Return ONLY your deduped candidate list for this one anchor (the orchestrator merges across anchors).
-  Aim for breadth — surface names the obvious search would miss. End with a one-line provenance summary.
+- Return your candidates for this one anchor as a **JSON array** so the orchestrator can dedup
+  deterministically: `[{"name","anchor","method","private"(true/false),"provenance","sub_sector"}, …]`
+  (the orchestrator merges across anchors via `dedup_candidates.py`). Aim for breadth — surface names the
+  obvious search would miss. Add a one-line provenance summary after the JSON.
 
 - **Fan-out is one level deep:** you do NOT spawn your own subagents/Task calls — gather your results yourself with web search and return them as data. (Prevents recursive over-fanning + rate-limit storms.)
 - **Search budget:** **max ~10 searches.** Prefer **WebSearch**; only **WebFetch** a page when a search snippet is genuinely insufficient (WebFetch is the expensive call and frequently 403s — keep it rare). Breadth of names over exhaustive depth on any one.

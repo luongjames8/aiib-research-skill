@@ -70,10 +70,18 @@ returns — never run the expansion searches yourself. Only when **no** subagent
 chat app) do you expand sequentially yourself, within the same search budget.
 
 ### Step 3 — Merge, DEDUP, screen, rank
-As workers return, merge all candidate lists and **dedup by normalized name** (same suffix-stripping +
-lowercase + variant-merge rule as Step 1). A name surfaced by **multiple** anchors/methods collapses to
-**ONE entry** — but record that it was multi-sourced: that overlap is a **strength signal** (rank it
-higher), not a duplicate to discard. Then apply a **light** mandate-fit gate (`references/aiib-mandate.md`
+As workers return, merge all candidate lists and **dedup by normalized name**. A name surfaced by
+**multiple** anchors/methods collapses to **ONE entry** — record that it was multi-sourced: that overlap
+is a **strength signal** (rank it higher), not a duplicate to discard.
+
+**In Claude Code, dedup deterministically — don't eyeball it.** Have each worker return its candidates
+as a JSON array (`{"name","anchor","method","private","provenance"}`), concatenate all workers' arrays
+into one file, and run `scripts/dedup_candidates.py` (`cat all.json | python scripts/dedup_candidates.py`).
+It normalizes names (strips `PT`/`Tbk`/`Group`/`Ltd`/… noise, lowercases), merges duplicates across
+workers, ranks multi-sourced names first, and emits one entry per company. It is **conservative** — it
+will NOT merge `X` with `X Geothermal` (possible parent/subsidiary), so do a quick **judgment pass** to
+combine the obvious same-company near-dupes it left apart (e.g. acronyms — `BREN` = `Barito Renewables`).
+On **claude.ai** (no filesystem/subagents), do the dedup by hand with the Step-1 normalization rule. Then apply a **light** mandate-fit gate (`references/aiib-mandate.md`
 — drop clearly out-of-mandate names; full scoring is the dossier's job). **Bias to PRIVATE / unlisted**
 operators. Rank by mandate fit + multi-source overlap + sub-sector attractiveness + signs of
 scale/fundability (rated, DFI-backed, recent raise).
