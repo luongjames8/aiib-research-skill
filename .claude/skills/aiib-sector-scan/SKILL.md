@@ -1,20 +1,16 @@
 ---
 name: aiib-sector-scan
 description: >-
-  Mode A of AIIB-style investment research: turn a country + sector into an exhaustive, sourced market
-  map. Given a country and a sector (e.g. "Indonesia · Renewables", "Vietnam · Digital Infrastructure",
-  "Brazil · Transport"), enumerate ALL sub-sectors, triage them cheaply, and run the 9-field A–I economics
-  template (market size, tariffs, margins, IRRs, listed comps, track record, risks, competitors) on the
-  most-investable few (or all, on request), then produce a set of mandate-fit anchor companies for sourcing. Use this whenever the user wants to research, map, size, or
-  assess the investment case for a sector or market — especially in developing/emerging markets for
-  infrastructure or development-finance investing. Trigger on phrasings like "research <sector> in
-  <country>", "what's the investment case for <sector> in <country>", "map the <sector> landscape",
-  "size the <sector> opportunity in <country>", or anything about the economics of AIIB-mandate sectors
-  (energy, transport, water, digital infrastructure, sustainable cities, health) — even if the user never
-  says "sector scan" or "AIIB". (To *find or list the companies* in a sector, that's Mode S —
-  aiib-company-sourcing — not this skill.) Stage one of the funnel — its economics + anchors feed the aiib-company-sourcing
-  skill (Mode S), which feeds the aiib-company-dossier skill (Mode B). Web-search floor; uses subagents
-  when available, runs sequentially when not.
+  Mode A of AIIB-style infrastructure investment research: turn a country + sector into a sourced market map.
+  Enumerate all sub-sectors, triage cheaply, deep-dive the most-investable few through a 9-field economics
+  template (size, tariffs, margins, IRRs, comps, track record, risks, competitors), and surface mandate-fit
+  anchor companies. Use whenever the user wants to research, map, size, or assess the investment case for a
+  sector or market — especially developing/emerging-market infrastructure or development finance — e.g.
+  "research Indonesia renewables", "map the Vietnam data-center landscape", "investment case for Philippine
+  water". Triggers on any AIIB-mandate sector (energy, transport, water, digital infrastructure, sustainable
+  cities, health), even without the words "sector scan" or "AIIB". To FIND or LIST companies in a sector, use
+  Mode S (aiib-company-sourcing) instead. Stage one of the funnel; feeds Mode S then Mode B. Web-search floor;
+  uses subagents when available.
 ---
 
 # AIIB Sector Scan (Mode A)

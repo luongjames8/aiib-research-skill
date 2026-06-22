@@ -1,18 +1,15 @@
 ---
 name: aiib-company-sourcing
 description: >-
-  Mode S of AIIB-style investment research: source the companies. Given a sub-sector (ideally with its
-  economics from an aiib-sector-scan run) or a country·sector, generate a RANKED LIST of mostly-PRIVATE,
-  mandate-fit companies to investigate — by graph-expanding from known anchors (a company's competitors,
-  suppliers, customers, JV partners, co-investors, and the fund-siblings of its PE/DFI backers), following
-  DFI/PE fund portfolios, decomposing the value chain, and sweeping deal trackers, PPP pipelines,
-  credit-rating lists, and local-language sources. Use this whenever the user wants to find, discover,
-  source, or build a pipeline/longlist/shortlist of companies or deal targets — "what companies should I
-  look at in <sector> <country>", "which companies operate in <country> <sector>", "find private
-  developers/operators/players in <sector>", "who competes with <company>", "list/expand from <company> to
-  its peers", origination/deal-sourcing — even if they never say "sourcing". Use this for the MANY-company
-  discovery step (a list); to deep-dive ONE named company use aiib-company-dossier (Mode B) instead. Sits
-  between aiib-sector-scan (Mode A — context) and aiib-company-dossier (Mode B — deep-dive); output feeds Mode B. Web-search floor; uses subagents when available, sequential when not.
+  Mode S of AIIB-style investment research: source the companies. Given a sub-sector (with its economics) or a
+  country and sector, produce a ranked list of mostly-PRIVATE, mandate-fit companies — by graph-expanding from
+  anchors (a company's competitors, suppliers, customers, JV partners, PE/DFI fund-siblings), following DFI/PE
+  fund portfolios, decomposing the value chain, and sweeping deal trackers, PPP pipelines, credit-rating lists,
+  and local-language sources. Use whenever the user wants to find, discover, source, or build a pipeline or
+  longlist of companies or deal targets — e.g. "what companies should I look at in Vietnam offshore wind", "find
+  private solar developers in Indonesia", "who competes with this company", origination or deal-sourcing — even
+  without the word "sourcing". This is the MANY-company discovery step; to deep-dive ONE named company use Mode
+  B (aiib-company-dossier). Sits between Mode A and Mode B. Uses subagents when available.
 ---
 
 # AIIB Company Sourcing (Mode S)

@@ -1,3 +1,4 @@
+dist/
+docs/WHATS-IN-FLIGHT.md
 .DS_Store
 *.skill
-dist/

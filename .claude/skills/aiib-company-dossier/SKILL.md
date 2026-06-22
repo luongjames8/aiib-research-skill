@@ -1,21 +1,15 @@
 ---
 name: aiib-company-dossier
 description: >-
-  Mode B of AIIB-style investment research: turn a company into a structured, sourced investment dossier.
-  Given a company (optionally with sub-sector context, or a candidate from the aiib-company-sourcing list),
-  produce a structured dossier — background + competitive moat, forward guidance & catalysts, financials
-  (margins, earnings quality, peer multiples), valuation & bull/base/bear scenarios, AIIB-mandate
-  alignment incl. ESG (vs. the 6 sectors + 4 thematic priorities), key people & management quality, and
-  risk assessment — pulling free structured financial data (yfinance / SEC EDGAR) when a code tool is
-  available and falling back to web search otherwise, with every claim provenance-tagged so unverified
-  figures are visible. Use this whenever the user wants a company deep-dive,
-  investment dossier, due-diligence brief, company profile, or to assess a company as an investment —
-  especially for infrastructure / development-finance / emerging-market investing, or when they hand over
-  a candidate from the aiib-company-sourcing skill (Mode S). Trigger even if they never say "dossier" or
-  "AIIB" — e.g. "is <company> a good investment", "research <company> for me", "profile <company>",
-  "what's the investment case for <company>". This skill is ONE named company at a time; for a SECTOR use
-  Mode A (aiib-sector-scan) and for a LIST of companies to look at use Mode S (aiib-company-sourcing).
-  Web-search floor; uses subagents when available, runs sequentially when not.
+  Mode B of AIIB-style investment research: turn a company into a structured, sourced investment dossier —
+  background and competitive moat, forward guidance and catalysts, financials (margins, earnings quality, peer
+  multiples), valuation and bull/base/bear scenarios, AIIB-mandate alignment incl. ESG, key people and
+  management, and risk — every claim provenance-tagged, pulling free financial data (yfinance, SEC EDGAR) when
+  available, else web search. Use whenever the user wants a company deep-dive, investment dossier, due-diligence
+  brief, company profile, or to assess a company as an investment — especially infrastructure, development-
+  finance, or emerging-market — or hands over a candidate from Mode S. Triggers even without "dossier" or "AIIB"
+  — e.g. "is this company a good investment", "research this company for me", "profile this company". ONE
+  company at a time; for a sector use Mode A, for a LIST of companies use Mode S. Uses subagents when available.
 ---
 
 # AIIB Company Dossier (Mode B)
