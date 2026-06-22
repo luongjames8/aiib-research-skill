@@ -10,6 +10,21 @@ This is an investment-screening artifact: missing data is flagged, never fabrica
 12-month BUY/SELL/HOLD price target) is intentionally **omitted** — AIIB makes conviction-based direct
 investments, not trades. Keep the conviction + mandate-fit framing, not a trading rating.
 
+**Private / unlisted companies are the norm here — research them deliberately.** Most AIIB targets have
+no ticker and no Yahoo/EDGAR feed, so `fetch_financials.py` returns nothing — that is expected, not a
+dead end. Pull what *does* exist, each tagged:
+- **Credit-rating reports & bond prospectuses** (Pefindo / CRISIL / ICRA / Fitch / Moody's) — these
+  routinely publish financials, leverage, and business detail for *private* infra issuers. Best single
+  source of hard numbers on an unlisted operator.
+- **DFI disclosure** (IFC project portal, ADB, FMO, etc.) — project summaries give deal size, sponsors,
+  and sometimes returns/financials for companies these banks have backed.
+- **Company website / press / investor decks**, **regulatory & PPP filings**, **company-registry
+  filings** (annual accounts in many jurisdictions), **news & deal trackers** (DealStreetAsia, IJGlobal).
+- **Key people** — LinkedIn, Crunchbase, company "about"/leadership pages, news.
+- **User-uploaded data** — if the user attaches accounts/a deck, use it (🔵 `[uploaded: file]`).
+Listed *peers* still anchor the valuation (comps) even when the target itself is private. Mark genuinely
+absent figures `[not available]` — a thin but honest private dossier is the correct output.
+
 ## 1. Background
 
 What the company is and does. Founding / ownership (listed? PE-backed? state-owned? family?),

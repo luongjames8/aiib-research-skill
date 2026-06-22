@@ -51,10 +51,14 @@ with history, earnings quality, cash flow, peer-comparison multiples) · 4. **Va
 alignment incl. ESG** (cite `references/aiib-mandate.md`) · 6. **Key people & management quality** ·
 7. **Risk assessment** (company-specific + macro). The template has the full spec for each.
 
-**Delegation (the portability rule):** If you have a Task/subagent tool (Claude Code), and especially
-when handed **multiple** companies, spawn one `company-dossier-researcher` subagent **per company** (or,
-for a single company, optionally one per section) and run them in parallel, then assemble. If you do not
-(claude.ai chat app), produce the dossier(s) **sequentially** in this context. Identical output either way.
+**Delegation — REQUIRED when a subagent tool exists (Claude Code).** If you have a Task/subagent tool,
+you **must** delegate: spawn one `company-dossier-researcher` subagent **per company** (they run on
+Sonnet — cheap + parallel) and let *them* do the web searches and data pulls; then assemble. **Do NOT
+run the research yourself in the main context** — as the orchestrator you only resolve the company(ies),
+spawn one Sonnet worker each, and assemble their returns, so the expensive orchestrator model stays out
+of the token-heavy searching. For a single company you may still delegate the whole dossier to one
+worker. Only when **no** subagent tool exists (claude.ai chat app) do you produce the dossier(s)
+sequentially in this context. Identical output — the difference is cost and speed.
 
 ### Step 3 — Verify & flag
 Re-read the dossier for any untagged numbers (→ ⚠️) and any fabricated-looking specifics. Add the

@@ -52,16 +52,35 @@ bad news. Tier each A/B/C on investability.
 multiples with `scripts/fetch_financials.py <ticker>` (yfinance — international tickers via exchange
 suffixes) when a code tool + network are available; else gather comps from web search. Tag by provenance.
 
-**Delegation (the portability rule):** If you have a Task/subagent tool available (Claude Code), spawn
-one `subsector-researcher` subagent **per sub-sector** and run them in parallel, then synthesize. If you
-do not (claude.ai chat app), work through the sub-sectors **sequentially** in this context. The output
-is identical either way — subagents are an optimization, never a requirement.
+**Delegation — REQUIRED when a subagent tool exists (Claude Code).** If you have a Task/subagent tool,
+you **must** delegate: spawn one `subsector-researcher` subagent **per sub-sector** (they run on Sonnet —
+cheap + parallel) and let *them* do the web searches and data pulls. **Do NOT run the per-sub-sector web
+searches yourself in the main context** — as the orchestrator your job is only to (a) enumerate the
+sub-sectors, (b) spawn one Sonnet worker per sub-sector, (c) synthesize their returns. The whole point is
+to keep the expensive orchestrator model out of the token-heavy searching; doing the searches inline
+defeats it. Only when **no** subagent tool exists (claude.ai chat app) do you work through the
+sub-sectors sequentially yourself. Output is identical — the difference is cost and speed.
 
 ### Step 3 — Mandate alignment + company shortlist
 Map the sector and its sub-sectors to AIIB's 6 sectors + 4 thematic priorities using
 `references/aiib-mandate.md` (cite it). Then surface a **ranked shortlist of companies** operating in
 the highest-conviction sub-sectors — for each: name, sub-sector, one-line why (mandate fit + economics),
-and provenance. These are the inputs the user feeds to the aiib-company-dossier skill.
+and provenance. These feed the aiib-company-dossier skill.
+
+**Find PRIVATE / unlisted companies, not just listed tickers** — most AIIB-relevant operators in these
+markets are private or project-level, so a stock-screen will miss them. Actively search these source
+types (name them in provenance):
+- **DFI / fund portfolios** — IFC disclosure portal, ADB, FMO, BII/CDC, Proparco, DEG, regional PE
+  funds. Their **investee lists are private mandate-fit companies** that already passed development-bank screens.
+- **Deal trackers + auction/tender winners** — DealStreetAsia, IJGlobal, and sector tenders (e.g. SECI,
+  PLN, EVN/DPPA) name private sponsors and developers.
+- **Regulatory / PPP pipelines** — national PPP/infra project books (Indonesia PPP book, Philippines PPP
+  Center, India NIP, Brazil ANEEL/ANTT, Chile CNE/MOP) name private concession holders.
+- **Credit ratings + bond issuance** — Pefindo / CRISIL / ICRA / Fitch lists; rated private infra firms
+  often publish financials in the rating report / prospectus.
+- **Local-language search** (Bahasa, Vietnamese, Hindi, Thai, Portuguese, Spanish, Turkish) — the biggest
+  unlock for the private long tail English results miss.
+Treat listed comps as the *measurable* benchmark; the shortlist itself should be mostly private operators.
 
 ## Output structure
 
