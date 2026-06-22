@@ -3,9 +3,9 @@ name: aiib-sector-scan
 description: >-
   Mode A of AIIB-style investment research: turn a country + sector into an exhaustive, sourced market
   map. Given a country and a sector (e.g. "Indonesia · Renewables", "Vietnam · Digital Infrastructure",
-  "Brazil · Transport"), enumerate ALL sub-sectors and run each through a 9-field A–I economics template
-  (market size, tariffs, margins, IRRs, listed comps, track record, risks, competitors), then produce a
-  set of mandate-fit anchor companies for sourcing. Use this whenever the user wants to research, map, size, or
+  "Brazil · Transport"), enumerate ALL sub-sectors, triage them cheaply, and run the 9-field A–I economics
+  template (market size, tariffs, margins, IRRs, listed comps, track record, risks, competitors) on the
+  most-investable few (or all, on request), then produce a set of mandate-fit anchor companies for sourcing. Use this whenever the user wants to research, map, size, or
   assess the investment case for a sector or market — especially in developing/emerging markets for
   infrastructure or development-finance investing. Trigger on phrasings like "research <sector> in
   <country>", "what's the investment case for <sector> in <country>", "map the <sector> landscape",
@@ -91,7 +91,8 @@ these anchors into the ranked private-candidate list. Hand the sub-sector econom
 
 1. **Header** — `<Country> · <Sector>` + coverage note (N sub-sectors covered) + a provenance banner
    (especially the ⚠️ no-live-sources banner if web access is unavailable — see provenance.md).
-2. **Sub-sector deep-dives** — one A–I block per sub-sector, each ending with a provenance summary line.
+2. **Sub-sector triage + deep-dives** — headline economics + an A/B/C tier for **all** sub-sectors; a
+   full A–I block for the **top ~3** most-investable (or all, in deep mode), each with a provenance line.
 3. **Sector synthesis** — cross-sub-sector comparison table (sub-sector | IRR range | tariff | margin
    trend | cycle | tier) + which sub-sectors are most investable and why (bear case named).
 4. **AIIB mandate alignment** — sector/theme match + Strong/Partial/Out verdict.

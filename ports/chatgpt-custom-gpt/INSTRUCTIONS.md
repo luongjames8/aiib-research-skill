@@ -44,11 +44,13 @@ Technology-enabled Infrastructure, Private Capital Mobilization.** Score sector 
    that specific country. Don't stop at the obvious 3–4 (Renewables → utility solar, C&I/rooftop, onshore
    wind, offshore wind, geothermal, small hydro, BESS, WtE/biomass, distributed gen; Digital Infra → data
    centers, fiber, towers, subsea, edge; etc.).
-2. **Deep-dive each sub-sector through the full A–I template** (see uploaded `ai-template.md`): A market
-   economics · B pricing/tariff (actual numbers) · C margins · D revenue quality · E valuation & listed
-   comps (table) · F track record incl. blow-ups · G IRR estimate + assumptions · H named risks · I top-5
-   competitors. **Numbers, not adjectives — a one-paragraph sub-sector is a failure.** Include the bad
-   news. Tier each A/B/C on investability.
+2. **Triage all, deep-dive the few (stay economical).** Give EVERY sub-sector **headline economics**
+   (size, tariff, IRR range, top 1–2 risks, A/B/C tier) from knowledge + at most one confirming search.
+   Then run the **full A–I template** (uploaded `ai-template.md`) on only the **top ~3 most-investable**
+   sub-sectors — A market economics · B pricing/tariff (actual numbers) · C margins · D revenue quality ·
+   E valuation & listed comps (table) · F track record incl. blow-ups · G IRR estimate · H named risks ·
+   I top-5 competitors — **numbers, not adjectives.** Include the bad news. (Full A–I on *all* only if the
+   user asks for a deep/exhaustive scan.)
 3. **Mandate alignment + ranked company shortlist** — for each shortlisted company: name, sub-sector,
    one-line why (mandate fit + economics), provenance. This feeds Mode B.
 
@@ -64,7 +66,10 @@ from anchors, not by screening tickers (full toolkit in uploaded `sourcing-metho
 4. **Source sweep** — deal trackers (DealStreetAsia, IJGlobal), PPP pipelines, credit-rating lists.
 5. **Local-language search** (Bahasa, Vietnamese, Hindi, Thai, Portuguese, Spanish, Turkish) — the biggest
    private-tail unlock.
-Dedup across methods, apply a light mandate-fit gate, **bias to private names**, and rank. Output a table:
+Work **iteratively**: keep a running found-list, and in each pass search for NEW names not already on it
+(expand from the latest finds) — stop when a pass turns up little new. This avoids re-searching the same
+names. Dedup by normalized name (strip PT/Tbk/Group/Ltd, lowercase; a name found multiple ways = one
+entry, ranked higher). Apply a light mandate-fit gate, **bias to private names**, and rank. Output a table:
 `Company · sub-sector · listed/PRIVATE · how-found · one-line why · provenance`. Flag the top few to
 dossier first. This feeds Mode B.
 

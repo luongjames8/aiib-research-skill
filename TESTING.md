@@ -1,67 +1,72 @@
 # Testing the AIIB research skills
 
-Two things to verify, separately: **(A) does the skill trigger**, and **(B) does it enforce depth once
-triggered**. Skills are not invoked every turn — Claude reads each skill's `description` (always in
-context) and loads the skill body (the rules) only when your request matches. So a skill that never
-triggers reminds Claude of nothing.
+Verify three things, separately: **(A) does the right skill trigger**, **(B) is the output correct +
+appropriately deep**, and **(C) does it stay cheap / not run away**. Skills aren't invoked every turn —
+Claude reads each skill's `description` (always in context) and loads the body only when your request
+matches. The three skills form a funnel: **A (sector context) → S (source companies) → B (dossier each).**
 
-## A. Trigger test
+## A. Trigger / routing test
 
-Ask something that matches the skill description and confirm the skill is actually used.
+Confirm the *right* skill fires (the descriptions are tuned so these don't cross-trigger):
 
-- **Mode A (`aiib-sector-scan`):** "Research Indonesia · Renewables for AIIB."
-- **Mode B (`aiib-company-dossier`):** "Build a dossier on <company>."
+- **Mode A (`aiib-sector-scan`):** "Research the Indonesia renewables sector for AIIB." → should fire A.
+- **Mode S (`aiib-company-sourcing`):** "Find private geothermal developers in Indonesia." → should fire S.
+- **Mode B (`aiib-company-dossier`):** "Build a dossier on <company>." → should fire B.
 
-How you see it triggered:
-- **Claude Code (terminal / web):** the session shows the skill being invoked, and — because subagents
-  are available here — spawns `subsector-researcher` / `company-dossier-researcher` agents in parallel.
-- **claude.ai chat app:** Claude indicates it is using the skill in its response (no subagents there).
+Cross-check it does NOT misroute: "find companies in X" → S (not A); "research the X sector" → A (not S);
+"profile company Y" → B (not S).
 
-If it does NOT trigger, the `description` frontmatter needs to better match how you phrase the request —
-that field is the only trigger signal.
+How you see it trigger: **Claude Code** shows the skill invoked and (Mode A/S) spawns Sonnet subagents;
+**claude.ai** says it's using the skill (no subagents).
 
-## B. Depth test (the main thing)
+## B. Output test
 
-Each SKILL.md ends with a **Self-check before returning** gate. Confirm the output actually meets it.
+**Mode A — sector scan:**
+- [ ] **Exhaustive ENUMERATION** — all sub-sectors listed (renewables ≈ 8–9), not just the obvious 3–4.
+- [ ] **Triaged depth** — every sub-sector has headline economics + an A/B/C tier; the **top ~3** carry
+      the full 9-field A–I with real numbers. (Full A–I on *all* only if you asked for a deep/exhaustive scan.)
+- [ ] **Negative signals** on the deep ones; **provenance tags** on every number; **mandate cited to aiib.org**.
+- [ ] **Anchors** at the end (listed leaders / DFI investees / deal winners) — the hand-off to Mode S.
 
-**Mode A — sector scan.** The output must have:
-- [ ] **Exhaustive sub-sectors** — all of them, not just the obvious 3–4 (renewables should yield ~8–9:
-      utility solar, C&I/rooftop, onshore wind, offshore wind, geothermal, small hydro, BESS, WtE/biomass,
-      distributed generation).
-- [ ] **Full A–I per sub-sector with real numbers** — market size, tariffs (actual ¢/kWh), margins, IRRs,
-      a comps table, track record incl. blow-ups, IRR estimate, named risks, competitors. A one-paragraph
-      sub-sector is a FAILURE.
-- [ ] **Negative signals included** — write-downs, stalled projects, payment delays, policy reversals.
-- [ ] **Provenance tags** on every numeric claim (🟢 web / 🔵 connector / ⚠️ training-unverified).
-- [ ] **Mandate alignment cited to aiib.org** (not model memory).
-- [ ] **Ranked, mandate-fit company shortlist** at the end (the hand-off to Mode B).
+**Mode S — company sourcing:**
+- [ ] List is **mostly PRIVATE / unlisted** operators (the point of this stage), not just listed names.
+- [ ] Found via **multiple methods** (graph expansion, fund-following, value-chain, sweep), expanded in
+      **rounds** (open-ended) until dry.
+- [ ] **Deduped + ranked** (multi-sourced names ranked higher), each tagged how-found + provenance.
 
-**Mode B — company dossier.** The output must have:
-- [ ] **All 5 sections** — background · forward guidance · financials · AIIB-mandate alignment · key people.
-- [ ] **Financials with numbers**, each tagged; every missing figure marked `[not available]`, not invented.
-- [ ] **Mandate verdict** — sector + theme + climate + Strong/Partial/Out, citing aiib.org.
-- [ ] **Provenance** on every claim; fact vs. inference separated.
-- [ ] **"Verify before relying"** list of the riskiest unsourced claims.
+**Mode B — company dossier:**
+- [ ] **All 7 sections** — background+moat · guidance+catalysts · financials · valuation & scenarios ·
+      mandate+ESG · key people+management · risk.
+- [ ] **Financials with numbers**, each tagged; missing figures `[not available]`, not invented; judged
+      **relative to the sub-sector** baseline.
+- [ ] **Mandate verdict** (sector + theme + climate + Strong/Partial/Out, citing aiib.org); fact vs.
+      inference separated; a **"Verify before relying"** list.
 
-If any output comes back shallow, harden the **Self-check** block in that skill's `SKILL.md` and re-test.
+## C. Cost / runaway test (important — Mode S especially)
 
-## C. Provenance / web-search-floor test
+The earlier failure mode was a subagent tree blowing up to thousands of calls. Confirm it can't:
+- [ ] Subagents are the **purpose-built** types (`subsector-researcher` / `source-expander` /
+      `company-dossier-researcher`), **never `general-purpose`** — those can't recurse (no Agent tool).
+- [ ] Mode S expanded in **small batched rounds** (~3–4 workers) with a **found-set**, not one big blast,
+      and **stopped when dry** / at the round cap — total subagents should be tens, not hundreds.
+- [ ] Searches were bounded (WebSearch-first, WebFetch rare). A sector scan should be ~12–18 searches by
+      default, not hundreds.
 
-Run the same prompt twice:
-1. **Web search ON** — expect mostly 🟢 `[web: source, date]` tags.
-2. **Web search OFF** (or a sandbox with no network) — expect the top banner
-   `⚠️ NO LIVE SOURCES THIS RUN — all claims are from model training and must be independently verified.`
-   and ⚠️ tags throughout. The skill must still produce full output, just fully flagged.
+If you can, watch the run (Claude Code `--output-format stream-json`): grep for `"name":"Agent"` (count
+should be modest) and `claude-sonnet` (workers should be Sonnet, not Opus).
 
-This proves the tool degrades safely instead of silently presenting unverified figures as fact.
+## D. Provenance / web-search-floor test
 
-## D. Both surfaces
+Run a prompt with web search **ON** (expect mostly 🟢 `[web: …]`) and **OFF** (expect the
+`⚠️ NO LIVE SOURCES THIS RUN …` banner + ⚠️ tags throughout — it must still produce full output, flagged).
 
-| Surface | Trigger | Subagents | Setup |
-|---|---|---|---|
-| Claude Code — web (claude.ai/code) | ✓ | ✓ parallel fan-out | point a session at this repo |
-| Claude Code — terminal | ✓ | ✓ parallel fan-out | clone + open this repo |
-| claude.ai chat (Pro/Max/Team/Enterprise) | ✓ | ✗ sequential | upload each `.claude/skills/<skill>/` folder in Settings → Capabilities → Skills |
+## E. Both surfaces
 
-Test Mode A → take a shortlist name → Mode B, on at least one Claude Code surface (to confirm subagent
-fan-out) and on claude.ai (to confirm the sequential fallback produces the same structure).
+| Surface | Skills | Subagents | Live data | Setup |
+|---|---|---|---|---|
+| Claude Code — terminal / web | ✓ | ✓ Sonnet fan-out | ✓ yfinance/EDGAR | clone/point at this repo |
+| claude.ai chat (Pro/Max/Team/Enterprise) | ✓ | ✗ sequential | ⚠️ network-dependent | upload each `.claude/skills/<skill>/` in Settings → Skills |
+| ChatGPT | rebuild as Custom GPT | ✗ | ✗ (sandbox no network) | see `ports/chatgpt-custom-gpt/` |
+
+End-to-end: run **A → S → B** (take an anchor from A into S, a candidate from S into B) on a Claude Code
+surface to confirm the funnel + subagent fan-out, and once on claude.ai to confirm the sequential fallback.

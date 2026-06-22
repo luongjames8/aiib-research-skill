@@ -33,12 +33,12 @@ Gather the sub-sector economics (from Mode A if available, else a quick sketch) 
 listed sector leaders, DFI investees, and recent deal/auction winners. Anchors are launch points — the
 goal is the **private adjacents** around them, not the anchors themselves.
 
-**Dedup the anchors BEFORE you spawn anything** (this is what stops three workers all chasing Star
-Energy / Salak). Normalize each name — strip legal/suffix noise (`PT`, `Tbk`, `Group`, `Bhd`, `PLC`,
-`Pvt`, `Ltd`, `Holdings`), lowercase, and merge obvious variants ("Star Energy", "PT Star Energy
-Geothermal", "Star Energy Group" → one). Then assign **one worker per DISTINCT anchor** with a
-non-overlapping brief. (You can't share state across parallel workers, so the lever is non-overlapping
-assignment up front + dedup on the way out — Step 3 — not preventing every redundant search.)
+**Dedup the anchors BEFORE Step 2** (this is what stops successive rounds re-chasing Star Energy / Salak).
+Normalize each name — strip legal/suffix noise (`PT`, `Tbk`, `Group`, `Bhd`, `PLC`, `Pvt`, `Ltd`,
+`Holdings`), lowercase, and merge obvious variants ("Star Energy", "PT Star Energy Geothermal", "Star
+Energy Group" → one). These dedup'd anchors are the **launch points for Step 2's first round** — from
+there the iterative **found-set** (Step 2) is the shared state that keeps later rounds from re-searching
+names already discovered.
 
 ### Step 2 — Expand ITERATIVELY, in rounds, until dry
 Sourcing is **open-ended** — you don't know how many companies exist — so expand in **rounds** carrying a
@@ -67,10 +67,11 @@ budget "**max ~10 searches; WebSearch first; WebFetch only when a snippet won't 
 expensive + often 403s) · **round cap ~4–5** even if not fully dry. On **claude.ai** (no subagents) run
 the same rounds sequentially yourself, within the budget.
 
-### Step 3 — Merge, DEDUP, screen, rank
-As workers return, merge all candidate lists and **dedup by normalized name**. A name surfaced by
-**multiple** anchors/methods collapses to **ONE entry** — record that it was multi-sourced: that overlap
-is a **strength signal** (rank it higher), not a duplicate to discard.
+### Step 3 — Final DEDUP, screen, rank
+After the rounds, your **found-set** holds the accumulated candidates (already deduped between rounds).
+Give it a **final dedup by normalized name** + judgment pass. A name surfaced by **multiple**
+anchors/methods/rounds collapses to **ONE entry** — record that it was multi-sourced: that overlap is a
+**strength signal** (rank it higher), not a duplicate to discard.
 
 **In Claude Code, dedup deterministically — don't eyeball it.** Have each worker return its candidates
 as a JSON array (`{"name","anchor","method","private","provenance"}`), concatenate all workers' arrays

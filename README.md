@@ -11,8 +11,9 @@ Mode B  company dossier   → deep-dive each candidate, in sector context (the d
 ```
 
 - **Mode A — `aiib-sector-scan`** — input `Country · Sector` (e.g. "Indonesia · Renewables") → exhaustive
-  sub-sector deep-dive (9-field A–I economics per sub-sector) + the **anchors** (listed leaders, DFI
-  investees, deal winners) that sourcing expands from.
+  sub-sector **enumeration + cheap triage**, a full 9-field A–I deep-dive on the **most-investable few**
+  (deep-on-all is opt-in), plus the **anchors** (listed leaders, DFI investees, deal winners) that
+  sourcing expands from.
 - **Mode S — `aiib-company-sourcing`** — input a sub-sector (+ its economics) → a ranked list of mostly-
   **PRIVATE**, mandate-fit companies, found by **graph-expanding anchors** (competitors, suppliers,
   customers, co-investors, PE/DFI fund-siblings), **fund-following**, **value-chain decomposition**, and
@@ -98,11 +99,12 @@ and subagents in `.claude/agents/` are picked up automatically — subagent fan-
 ## Usage
 
 ```
-Mode A:  "Research Indonesia · Renewables for AIIB."  →  sub-sector deep-dive + company shortlist
-Mode B:  "Build a dossier on <company>."              →  5-section investment dossier
+Mode A:  "Research Indonesia · Renewables for AIIB."      →  sub-sector economics (triage + deep top few) + anchors
+Mode S:  "Find private geothermal developers in Indonesia." →  ranked list of mostly-private candidates
+Mode B:  "Build a dossier on <company>."                  →  7-section investment dossier
 ```
+Typical flow: **A** (context + anchors) → **S** (source the private companies) → **B** (dossier each).
 
-Typical flow: run Mode A on a country·sector, then run Mode B on each shortlisted company.
 
 ## Disclaimer
 
