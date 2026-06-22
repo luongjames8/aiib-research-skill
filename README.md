@@ -26,6 +26,22 @@ and **Claude Code** (terminal + web). A top-down funnel in two modes:
   or **OpenBB**'s free providers — via the bundled `scripts/fetch_financials.py`, tagged 🟢; otherwise
   they fall back to web search, and finally to ⚠️-tagged training knowledge. No API keys required.
 
+### Data availability by surface (important)
+
+The structured-data tier needs a **code-execution sandbox with network access**. That differs by surface,
+so the same skill produces richer or thinner financials depending on where it runs — by design, it
+degrades gracefully and the provenance tags always show which tier was used:
+
+| Surface | Web search (floor) | Structured data (`fetch_financials.py`, yfinance/EDGAR) |
+|---|---|---|
+| **Claude Code — terminal** | ✅ | ✅ (pip + network available) |
+| **Claude Code — web** (claude.ai/code) | ✅ | ✅ if the cloud environment's network level allows package + data-API access (configurable; the default *Trusted* allowlist may need Yahoo/SEC hosts added) |
+| **claude.ai chat app** | ✅ | ⚠️ **sandbox network is settings-dependent** — may be off, and packages are pre-configured-only, so the script can return `unavailable` and the skill falls back to web search |
+
+**Takeaway:** for the fullest, numbers-from-live-feeds dossiers, run on **Claude Code**. On the claude.ai
+chat app it still works end-to-end — it just leans on web search rather than direct data pulls when the
+sandbox has no network. Either way, every figure is provenance-tagged so you can see what it relied on.
+
 ## Credits & licenses
 
 - This repo: **MIT** (see `LICENSE`).
