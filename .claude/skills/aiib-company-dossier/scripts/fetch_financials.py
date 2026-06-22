@@ -29,8 +29,15 @@ def main():
     try:
         import yfinance as yf
     except Exception:
-        _unavailable("yfinance not installed — run `pip install yfinance` if the environment allows, "
-                     "otherwise use the web-search floor")
+        # Self-heal: try a one-time quiet install, then re-import. Graceful fallback if blocked.
+        import subprocess
+        try:
+            subprocess.run([sys.executable, "-m", "pip", "install", "--quiet", "--disable-pip-version-check", "yfinance"],
+                           check=True, timeout=240, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            import yfinance as yf
+        except Exception as e:
+            _unavailable(f"yfinance unavailable and auto-install failed ({type(e).__name__}) — "
+                         "the sandbox likely blocks pip/network; use the web-search floor")
 
     try:
         t = yf.Ticker(ticker)

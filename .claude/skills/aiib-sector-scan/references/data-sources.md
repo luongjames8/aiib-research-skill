@@ -26,9 +26,12 @@ them from web pages. Tag the result 🟢 with the source + as-of date.
   copyleft consideration, so prefer them unless OpenBB is already present.
 - **FRED** (macro: rates, FX, inflation) — free but needs a free API key; use only if the user provides one.
 
-How to use Tier 1: run `scripts/fetch_financials.py <TICKER>` (or equivalent yfinance/EDGAR calls),
-parse the JSON, and build the Financials + peer-comparison + valuation inputs from real numbers. If the
-script prints an `unavailable` status (no package / no network), drop to Tier 0.
+How to use Tier 1: run `python scripts/fetch_financials.py <TICKER>` via Bash, parse the JSON, and build
+the Financials + peer-comparison + valuation inputs from real numbers. **The script auto-installs yfinance
+on first use** (a one-time quiet `pip install`), so no setup is needed — just run it. The subagents that
+need this (`subsector-researcher`, `company-dossier-researcher`) have the Bash tool for exactly this; they
+do NOT have the Agent/Task tool, so they still can't spawn subagents (Bash is for this script only). Only
+if the script prints `unavailable` (sandbox blocks pip/network, e.g. claude.ai) drop to Tier 0 (web).
 
 ## Tier 0 — web-search floor (always available as fallback)
 

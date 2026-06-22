@@ -5,7 +5,7 @@ description: >-
   aiib-sector-scan skill (Mode A) to parallelize sub-sector deep-dives. Returns a single A–I block with
   provenance tags. Only used in Claude Code (subagent-capable surfaces); on claude.ai the skill runs
   sub-sectors sequentially instead.
-tools: WebSearch, WebFetch, Read
+tools: WebSearch, WebFetch, Read, Bash
 model: sonnet
 ---
 
@@ -24,13 +24,16 @@ Rules:
 - **Numbers, not adjectives.** Every quantitative claim carries a provenance tag (web vs. training) per
   `.claude/skills/aiib-sector-scan/references/provenance.md`. Default to ⚠️ training-unverified when you
   cannot point to a live source.
-- **Search the web** for this specific country+sub-sector; do not rely on memory. For field E (comps),
-  pull free multiples via `.claude/skills/aiib-sector-scan/scripts/fetch_financials.py <ticker>`
-  (yfinance) when a code tool + network are available; else web. Search specifically for NEGATIVE
-  signals (write-downs, stalled projects, payment delays).
+- **Search the web** for this specific country+sub-sector; do not rely on memory. **For field E (comps),
+  ALWAYS pull verified multiples with the script first** — run
+  `python .claude/skills/aiib-sector-scan/scripts/fetch_financials.py <ticker>` (international tickers use
+  exchange suffixes, e.g. `ADANIGREEN.NS`, `PGEO.JK`) via Bash for each relevant listed comparable; it
+  **auto-installs yfinance on first use**. Use its EV/EBITDA, P/E, P/B, margins as 🟢 data. Only if it
+  returns `unavailable` (sandbox blocks pip/network) fall back to web-eyeballed comps, ⚠️-tagged. Search
+  specifically for NEGATIVE signals (write-downs, stalled projects, payment delays).
 - **Tier the sub-sector** A/B/C on investability with a one-line reason.
 - Return ONLY the A–I block for your one sub-sector (it will be synthesized with the others). End with a
   one-line provenance summary (counts of web vs. training claims).
 
-- **Fan-out is one level deep:** you do NOT spawn your own subagents/Task calls — gather your results yourself with web search and return them as data. (Prevents recursive over-fanning + rate-limit storms.)
+- **Fan-out is one level deep:** you do NOT spawn your own subagents/Task calls — gather your results yourself with web search and return them as data. (Prevents recursive over-fanning + rate-limit storms.) **Bash is for `fetch_financials.py` ONLY — never run `claude`, agent-spawning, or other commands with it.**
 - **Search budget:** ~2–4 searches. Prefer **WebSearch**; only **WebFetch** a page when a snippet is genuinely insufficient (it's expensive and often 403s).

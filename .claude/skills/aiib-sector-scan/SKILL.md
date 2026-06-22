@@ -67,9 +67,11 @@ So ~8 renewable sub-sectors → ~8 bounded Sonnet workers across ~2 waves: **wid
 no recursion.** (Optional: if the user explicitly asks for a *quick / overview* scan, you may instead give
 each sub-sector a one-line headline + tier without the full A–I — but the **default is full coverage**.)
 
-**Data tiers** (`references/data-sources.md`): for field E (comps), workers pull free listed-comp
-multiples with `scripts/fetch_financials.py <ticker>` (yfinance) when a code tool + network are available;
-else web. Tag by provenance.
+**Structured comps are automatic** (`references/data-sources.md`): the `subsector-researcher` workers
+have Bash and **run `scripts/fetch_financials.py <ticker>` themselves** for field E — it **auto-installs
+yfinance on first use** and returns verified EV/EBITDA, P/E, P/B, margins (🟢). They web-eyeball comps
+(⚠️) only if it returns `unavailable` (sandbox blocks pip/network). No manual setup — don't ship a scan on
+guessed multiples when the script can verify them.
 
 **No subagent tool (claude.ai chat app):** work through every sub-sector sequentially yourself, same A–I
 template + per-sub-sector search budget. To guarantee the cheap parallel-Sonnet path on Claude Code, run
