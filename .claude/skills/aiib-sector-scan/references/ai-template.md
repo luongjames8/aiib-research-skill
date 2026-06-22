@@ -14,7 +14,7 @@ For **each** sub-sector, produce:
   land, grid/connection); compressing or expanding.
 - **D. Revenue quality** — % contracted vs. merchant, contract/lease tenor, offtaker identity + payment
   track record + curtailment data, counterparty credit.
-- **E. Valuation & cycle** — pull every relevant listed comparable (ticker, EV/EBITDA, P/E, P/B, revenue
+- **E. Valuation & cycle** — pull the **2–3 most relevant** listed comparables (ticker, EV/EBITDA, P/E, P/B, revenue
   growth, 52-wk range) as a **comp table** + private-transaction comps; where multiples sit vs. history;
   capital-flow direction.
 - **F. Track record & realized returns** — who has invested in this market/sub-sector, at what

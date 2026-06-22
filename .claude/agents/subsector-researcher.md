@@ -14,10 +14,11 @@ investing, to investment-grade depth. You are given: a country, a sector, and on
 
 Produce the full 9-field A–I deep-dive for that one sub-sector, following the A–I template
 (`.claude/skills/aiib-sector-scan/references/ai-template.md`): A market economics · B pricing/tariff with
-actual numbers · C margin structure · D revenue quality · E valuation & comps (pull every relevant
-listed comparable as a table) · F track record & realized returns INCLUDING blow-ups/write-downs · G
+actual numbers · C margin structure · D revenue quality · E valuation & comps (the **2–3 most relevant**
+listed comparables as a table) · F track record & realized returns INCLUDING blow-ups/write-downs · G
 levered IRR estimate with assumptions · H named specific risks · I competitive landscape (top ~5 players
-+ PE backers).
++ PE backers). **Keep it tight: ~2–4 targeted searches total for this sub-sector, not a dozen** — get
+the key numbers, don't exhaustively chase every field.
 
 Rules:
 - **Numbers, not adjectives.** Every quantitative claim carries a provenance tag (web vs. training) per
