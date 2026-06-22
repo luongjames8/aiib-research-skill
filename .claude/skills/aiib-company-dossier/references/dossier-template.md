@@ -6,6 +6,12 @@ investing. Produce every section; tag every claim by provenance (`provenance.md`
 from Tier-1 free data when available (`data-sources.md` + `scripts/fetch_financials.py`), else web search.
 This is an investment-screening artifact: missing data is flagged, never fabricated.
 
+**Judge the company relative to its sub-sector.** Numbers are only meaningful against the sub-sector
+baseline from the sector scan (or your quick sketch): a 60% EBITDA margin is strong in one sub-sector and
+weak in another. Throughout — Financials, Valuation, Risk — state where the company sits **vs. its
+sub-sector norm** (above/below margin, cheap/dear vs. comps, exposed/insulated to the sub-sector's key
+risks). That relative read is what makes the dossier decision-useful.
+
 **Adapted, not copied:** the public-equity *trading* apparatus (technical analysis, options flow, a
 12-month BUY/SELL/HOLD price target) is intentionally **omitted** — AIIB makes conviction-based direct
 investments, not trades. Keep the conviction + mandate-fit framing, not a trading rating.

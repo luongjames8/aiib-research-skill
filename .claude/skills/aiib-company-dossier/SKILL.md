@@ -35,8 +35,13 @@ by source, and keep your own inferences visibly separate from sourced facts.
 
 ## Workflow
 
-### Step 1 — Resolve the company + pull data
+### Step 1 — Resolve the company + load sector context + pull data
 Confirm which entity (disambiguate by country/sector; identify parent/group and listing status).
+**Load the sub-sector context.** A company is only judged *relative to its sub-sector* — its margins,
+IRR, tariffs, and risks mean nothing without the sub-sector baseline. If a Mode-A (aiib-sector-scan)
+result exists for this company's sub-sector, carry its economics in (tariff range, typical EBITDA/IRR,
+cycle, key risks, listed comps, competitive landscape). If not, do a **quick sub-sector economics
+sketch first** (a few searches: tariffs, typical margins/IRR, main risks) so you have a yardstick.
 **Get the best data tier available** (`references/data-sources.md`): if you have a code tool with
 network, pull free structured financials with `scripts/fetch_financials.py <ticker>` (yfinance — works
 for international tickers via exchange suffixes, e.g. `PGEO.JK`); if it returns `unavailable`, or for
@@ -53,10 +58,12 @@ alignment incl. ESG** (cite `references/aiib-mandate.md`) · 6. **Key people & m
 
 **Delegation — REQUIRED when a subagent tool exists (Claude Code).** If you have a Task/subagent tool,
 you **must** delegate: spawn one `company-dossier-researcher` subagent **per company** (they run on
-Sonnet — cheap + parallel) and let *them* do the web searches and data pulls; then assemble. **Do NOT
-run the research yourself in the main context** — as the orchestrator you only resolve the company(ies),
-spawn one Sonnet worker each, and assemble their returns, so the expensive orchestrator model stays out
-of the token-heavy searching. For a single company you may still delegate the whole dossier to one
+Sonnet — cheap + parallel) and let *them* do the web searches and data pulls; then assemble. **Pass each
+worker the sub-sector economics as context** (from Step 1 — tariff range, typical EBITDA/IRR, cycle, key
+risks, comps) so it screens the company *within* its sector reality, not in a vacuum. **Do NOT run the
+research yourself in the main context** — as the orchestrator you only resolve the company(ies), load the
+sector context, spawn one Sonnet worker each (with that context), and assemble their returns, so the
+expensive orchestrator model stays out of the token-heavy searching. For a single company you may still delegate the whole dossier to one
 worker. Only when **no** subagent tool exists (claude.ai chat app) do you produce the dossier(s)
 sequentially in this context. Identical output — the difference is cost and speed.
 

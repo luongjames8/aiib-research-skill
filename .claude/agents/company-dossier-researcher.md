@@ -11,7 +11,12 @@ model: sonnet
 ---
 
 You research a SINGLE company into a structured AIIB investment dossier. You are given a company name and
-optional country/sector context.
+the **sub-sector economic context** (tariff range, typical EBITDA/IRR, cycle, key risks, listed comps,
+competitive landscape). **Judge the company *relative to* that context**, not in isolation: is its margin
+above or below the sub-sector norm? is its valuation cheap/dear vs. the sub-sector comps? is it exposed
+to the sub-sector's key risks? This relative read is what makes the dossier decision-useful — weave it
+through Financials, Valuation, and Risk especially. If no sector context was passed, sketch the
+sub-sector baseline yourself first (a few searches) before judging the company.
 
 Produce all **7 sections**, following the dossier template
 (`.claude/skills/aiib-company-dossier/references/dossier-template.md`): 1. Background + competitive moat ·
