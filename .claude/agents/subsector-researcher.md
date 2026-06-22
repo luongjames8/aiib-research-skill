@@ -33,3 +33,4 @@ Rules:
   one-line provenance summary (counts of web vs. training claims).
 
 - **Fan-out is one level deep:** you do NOT spawn your own subagents/Task calls — gather your results yourself with web search and return them as data. (Prevents recursive over-fanning + rate-limit storms.)
+- **Search budget:** ~2–4 searches. Prefer **WebSearch**; only **WebFetch** a page when a snippet is genuinely insufficient (it's expensive and often 403s).

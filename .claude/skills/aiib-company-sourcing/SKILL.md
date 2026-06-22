@@ -28,10 +28,17 @@ feeds the **aiib-company-dossier** skill (Mode B). Full method detail: `referenc
 
 ## Workflow
 
-### Step 1 — Establish anchors + context
+### Step 1 — Establish + DEDUP anchors, load context
 Gather the sub-sector economics (from Mode A if available, else a quick sketch) and the **anchors**:
 listed sector leaders, DFI investees, and recent deal/auction winners. Anchors are launch points — the
 goal is the **private adjacents** around them, not the anchors themselves.
+
+**Dedup the anchors BEFORE you spawn anything** (this is what stops three workers all chasing Star
+Energy / Salak). Normalize each name — strip legal/suffix noise (`PT`, `Tbk`, `Group`, `Bhd`, `PLC`,
+`Pvt`, `Ltd`, `Holdings`), lowercase, and merge obvious variants ("Star Energy", "PT Star Energy
+Geothermal", "Star Energy Group" → one). Then assign **one worker per DISTINCT anchor** with a
+non-overlapping brief. (You can't share state across parallel workers, so the lever is non-overlapping
+assignment up front + dedup on the way out — Step 3 — not preventing every redundant search.)
 
 ### Step 2 — Expand to candidates (the methods)
 Apply the toolkit in `references/sourcing-methods.md`: **graph expansion** from each anchor (competitors,
@@ -40,25 +47,36 @@ of funds/DFIs active here), **value-chain decomposition** (a player per link), t
 trackers, PPP pipelines, credit-rating lists), and **local-language mining** (the biggest private-tail
 unlock). Cast several nets — overlap between methods is a quality signal.
 
-**Delegation — REQUIRED when a subagent tool exists (Claude Code).** You **must** delegate: spawn one
-`source-expander` subagent (Sonnet — cheap + parallel) **per anchor / per fund / per value-chain link**,
-each carrying the sub-sector context, and let *them* do the web searches. **Do NOT run the expansion
-searches yourself in the main context** — as orchestrator you only set the anchors, spawn the Sonnet
-workers, and merge/dedup their returns. Only when **no** subagent tool exists (claude.ai chat app) do you
-expand sequentially yourself.
+**Delegation — REQUIRED when a subagent tool exists (Claude Code).**
 
-**Cap the fan-out (avoid rate-limit storms).** Run at most **~6 workers concurrently**; if you have more
-anchors/funds/value-chain links than that, dispatch in **waves** of ~6, not all at once. Keep fan-out
-**ONE level deep** — a worker returns a *list of names*, it does **not** spawn its own subagents.
-Value-chain links multiply fast (links × players), so prefer **one worker per value-chain link** (which
-returns all players at that link) over a worker per (link × player). Over-fanning triggers transient
-rate limits and wastes the run.
+⛔ **Use `subagent_type: source-expander` — NEVER `general-purpose`.** This is the single most important
+rule in this skill. `general-purpose` has the **Agent tool**, so those workers **re-delegate and spawn
+their own children**, which spawn more — a runaway tree (one real run hit ~2,800 calls / 174 agents).
+`source-expander` ships with tools **WebSearch/WebFetch/Read only — no Agent tool — so it physically
+cannot recurse.** Always pass `subagent_type: "source-expander"`.
 
-### Step 3 — Dedup, screen, rank
-Dedup across methods (a name found multiple ways is strong). Apply a **light** mandate-fit gate
-(`references/aiib-mandate.md` — drop clearly out-of-mandate names; full scoring is the dossier's job).
-**Bias to PRIVATE / unlisted** operators. Rank by mandate fit + the economic attractiveness of the
-sub-sector + signs of scale/fundability (rated, DFI-backed, recent raise).
+**Dedup anchors BEFORE spawning, then one worker per anchor.** Collapse overlapping anchors first (don't
+spawn three workers that all chase Star Energy / Salak). Spawn **one `source-expander` per distinct
+anchor — aim for ~8–12 total, hard cap ~15.** Do **not** spawn per micro value-chain link (links ×
+players explodes); fold value-chain coverage into the per-anchor workers' briefs instead.
+
+**Per-worker search budget (put it in each worker's prompt):** "**max ~10 searches; prefer WebSearch;
+only WebFetch a page when a search snippet is insufficient.**" (WebFetch is the expensive call and often
+403s — keep it rare.)
+
+**Fan-out width + waves:** at most **~6 workers concurrent**; more anchors than that → dispatch in waves
+of ~6. As orchestrator you only set/dedup anchors, spawn the source-expander workers, and merge their
+returns — never run the expansion searches yourself. Only when **no** subagent tool exists (claude.ai
+chat app) do you expand sequentially yourself, within the same search budget.
+
+### Step 3 — Merge, DEDUP, screen, rank
+As workers return, merge all candidate lists and **dedup by normalized name** (same suffix-stripping +
+lowercase + variant-merge rule as Step 1). A name surfaced by **multiple** anchors/methods collapses to
+**ONE entry** — but record that it was multi-sourced: that overlap is a **strength signal** (rank it
+higher), not a duplicate to discard. Then apply a **light** mandate-fit gate (`references/aiib-mandate.md`
+— drop clearly out-of-mandate names; full scoring is the dossier's job). **Bias to PRIVATE / unlisted**
+operators. Rank by mandate fit + multi-source overlap + sub-sector attractiveness + signs of
+scale/fundability (rated, DFI-backed, recent raise).
 
 ## Output structure
 A **ranked candidate table**, plus a provenance banner. Each row:

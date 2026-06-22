@@ -30,3 +30,4 @@ Rules:
   Aim for breadth — surface names the obvious search would miss. End with a one-line provenance summary.
 
 - **Fan-out is one level deep:** you do NOT spawn your own subagents/Task calls — gather your results yourself with web search and return them as data. (Prevents recursive over-fanning + rate-limit storms.)
+- **Search budget:** **max ~10 searches.** Prefer **WebSearch**; only **WebFetch** a page when a search snippet is genuinely insufficient (WebFetch is the expensive call and frequently 403s — keep it rare). Breadth of names over exhaustive depth on any one.

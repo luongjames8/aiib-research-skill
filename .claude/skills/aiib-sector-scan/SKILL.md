@@ -35,7 +35,10 @@ added signal.
   Sustainable Cities, Digital Infrastructure, Water, Health) — see `references/aiib-mandate.md`. Accept
   the user's phrasing and map it (e.g. "renewables" → Energy; "logistics" → Transport; "data centers" →
   Digital Infrastructure).
-- **Optional:** quarter/timeframe (default: current), a sub-sector focus, number of shortlist names.
+- **Optional:** **depth** — `screening` (DEFAULT: triage all sub-sectors + full A–I on the top ~3) or
+  `deep`/`exhaustive` (full A–I on every sub-sector — opt-in, much costlier). Also: quarter/timeframe
+  (default current), a sub-sector focus, number of anchors. Read the user's intent for depth too — words
+  like "quick / overview / just the landscape" → screening; "deep / thorough / exhaustive" → deep.
 
 ## Workflow
 
@@ -69,9 +72,11 @@ are available; else web. Tag by provenance.
 
 **Delegation — for the DEEP sub-sectors only.** Do the **cheap triage inline** (it's headline numbers
 from knowledge — spawning a worker for that wastes more than it saves). When a subagent tool exists,
-spawn one `subsector-researcher` (Sonnet) **per DEEP sub-sector — i.e. ~3, not one per sub-sector**, and
-let them do the A–I searches; you synthesize. **Cap the fan-out:** ~6 workers concurrent max, **one level
-deep** (workers return data, never spawn their own subagents) to avoid rate-limit storms. Only when no
+spawn one worker **per DEEP sub-sector — i.e. ~3, not one per sub-sector**, and let them do the A–I
+searches; you synthesize. ⛔ **Use `subagent_type: subsector-researcher` — NEVER `general-purpose`**
+(general-purpose has the Agent tool and will recurse into a runaway tree; subsector-researcher has only
+WebSearch/WebFetch/Read, so it can't). Each worker's budget: **~2–4 searches; prefer WebSearch, WebFetch
+only if a snippet is insufficient.** **Cap the fan-out:** ~6 workers concurrent max. Only when no
 subagent tool exists (claude.ai chat app) do the deep dives sequentially yourself.
 
 ### Step 3 — Mandate alignment + anchors (hand-off to sourcing)

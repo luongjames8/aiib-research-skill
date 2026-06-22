@@ -38,3 +38,4 @@ Rules:
   short "Verify before relying" list of the highest-risk unsourced claims.
 
 - **Fan-out is one level deep:** you do NOT spawn your own subagents/Task calls — gather your results yourself with web search and return them as data. (Prevents recursive over-fanning + rate-limit storms.)
+- **Search budget:** prefer `fetch_financials.py` + **WebSearch**; only **WebFetch** a page (filing, rating report) when a snippet is genuinely insufficient (it's expensive and often 403s).
