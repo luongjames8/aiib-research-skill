@@ -47,6 +47,13 @@ searches yourself in the main context** — as orchestrator you only set the anc
 workers, and merge/dedup their returns. Only when **no** subagent tool exists (claude.ai chat app) do you
 expand sequentially yourself.
 
+**Cap the fan-out (avoid rate-limit storms).** Run at most **~6 workers concurrently**; if you have more
+anchors/funds/value-chain links than that, dispatch in **waves** of ~6, not all at once. Keep fan-out
+**ONE level deep** — a worker returns a *list of names*, it does **not** spawn its own subagents.
+Value-chain links multiply fast (links × players), so prefer **one worker per value-chain link** (which
+returns all players at that link) over a worker per (link × player). Over-fanning triggers transient
+rate limits and wastes the run.
+
 ### Step 3 — Dedup, screen, rank
 Dedup across methods (a name found multiple ways is strong). Apply a **light** mandate-fit gate
 (`references/aiib-mandate.md` — drop clearly out-of-mandate names; full scoring is the dossier's job).

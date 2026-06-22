@@ -67,7 +67,9 @@ research yourself in the main context** — as the orchestrator you only resolve
 sector context, spawn one Sonnet worker each (with that context), and assemble their returns, so the
 expensive orchestrator model stays out of the token-heavy searching. For a single company you may still delegate the whole dossier to one
 worker. Only when **no** subagent tool exists (claude.ai chat app) do you produce the dossier(s)
-sequentially in this context. Identical output — the difference is cost and speed.
+sequentially in this context. Identical output — the difference is cost and speed. **Cap the fan-out:**
+at most **~6 workers concurrently** — more companies than that, dispatch in waves. Fan-out stays **one
+level deep** (workers return data, never spawn their own subagents) to avoid rate-limit storms.
 
 ### Step 3 — Verify & flag
 Re-read the dossier for any untagged numbers (→ ⚠️) and any fabricated-looking specifics. Add the

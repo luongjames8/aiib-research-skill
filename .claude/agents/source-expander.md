@@ -28,3 +28,5 @@ Rules:
 - Apply only a **light** mandate-fit sanity check (don't deep-score — that's the dossier's job).
 - Return ONLY your deduped candidate list for this one anchor (the orchestrator merges across anchors).
   Aim for breadth — surface names the obvious search would miss. End with a one-line provenance summary.
+
+- **Fan-out is one level deep:** you do NOT spawn your own subagents/Task calls — gather your results yourself with web search and return them as data. (Prevents recursive over-fanning + rate-limit storms.)

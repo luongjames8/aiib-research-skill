@@ -36,3 +36,5 @@ Rules:
 - **Separate fact from inference.**
 - Return ONLY this company's complete dossier, each section ending with a provenance summary line, plus a
   short "Verify before relying" list of the highest-risk unsourced claims.
+
+- **Fan-out is one level deep:** you do NOT spawn your own subagents/Task calls — gather your results yourself with web search and return them as data. (Prevents recursive over-fanning + rate-limit storms.)

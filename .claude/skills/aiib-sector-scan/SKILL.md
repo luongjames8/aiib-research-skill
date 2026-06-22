@@ -62,7 +62,9 @@ searches yourself in the main context** — as the orchestrator your job is only
 sub-sectors, (b) spawn one Sonnet worker per sub-sector, (c) synthesize their returns. The whole point is
 to keep the expensive orchestrator model out of the token-heavy searching; doing the searches inline
 defeats it. Only when **no** subagent tool exists (claude.ai chat app) do you work through the
-sub-sectors sequentially yourself. Output is identical — the difference is cost and speed.
+sub-sectors sequentially yourself. Output is identical — the difference is cost and speed. **Cap the
+fan-out:** at most **~6 workers concurrently** — if there are more sub-sectors, dispatch in waves of ~6.
+Fan-out stays **one level deep** (workers return data, never spawn their own subagents) to avoid rate-limit storms.
 
 ### Step 3 — Mandate alignment + anchors (hand-off to sourcing)
 Map the sector and its sub-sectors to AIIB's 6 sectors + 4 thematic priorities using

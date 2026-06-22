@@ -30,3 +30,5 @@ Rules:
 - **Tier the sub-sector** A/B/C on investability with a one-line reason.
 - Return ONLY the A–I block for your one sub-sector (it will be synthesized with the others). End with a
   one-line provenance summary (counts of web vs. training claims).
+
+- **Fan-out is one level deep:** you do NOT spawn your own subagents/Task calls — gather your results yourself with web search and return them as data. (Prevents recursive over-fanning + rate-limit storms.)
