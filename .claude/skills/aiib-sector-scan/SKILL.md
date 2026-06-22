@@ -1,21 +1,28 @@
 ---
 name: aiib-sector-scan
 description: >-
-  Mode A of AIIB investment research. Given a country and a sector (e.g. "Indonesia · Renewables",
-  "Vietnam · Digital Infrastructure"), produce an exhaustive sub-sector deep-dive — each sub-sector
-  run through a 9-field A–I economics template (market size, tariffs, margins, IRRs, comps, track
-  record, risks, competitors) — then a ranked, mandate-fit company shortlist for follow-up dossiers.
-  Use when the user wants sector / market-map research for AIIB-style developing-markets infrastructure
-  investing, asks "research <sector> in <country>", wants to map a sector's sub-sectors and economics,
-  or needs a sourced list of companies to investigate. Pairs with the aiib-company-dossier skill (Mode
-  B) which deep-dives the shortlisted companies. Built for a web-search floor; uses subagents when
-  available, runs sequentially when not.
+  Mode A of AIIB-style investment research: turn a country + sector into an exhaustive, sourced market
+  map. Given a country and a sector (e.g. "Indonesia · Renewables", "Vietnam · Digital Infrastructure",
+  "Brazil · Transport"), enumerate ALL sub-sectors and run each through a 9-field A–I economics template
+  (market size, tariffs, margins, IRRs, listed comps, track record, risks, competitors), then produce a
+  ranked, mandate-fit company shortlist. Use this whenever the user wants to research, map, size, or
+  assess the investment case for a sector or market — especially in developing/emerging markets for
+  infrastructure or development-finance investing. Trigger on phrasings like "research <sector> in
+  <country>", "what's the investment case for <sector> in <country>", "map the <sector> landscape",
+  "which companies operate in <country> <sector>", or anything about AIIB-mandate sectors (energy,
+  transport, water, digital infrastructure, sustainable cities, health) — even if the user never says
+  "sector scan" or "AIIB". Pairs with the aiib-company-dossier skill (Mode B) for the shortlisted
+  companies. Web-search floor; uses subagents when available, runs sequentially when not.
 ---
 
 # AIIB Sector Scan (Mode A)
 
 Top-down funnel, stage one: **Country · Sector → sub-sector economics → company shortlist.** Methodology
 proven on a live deal-sourcing system. Output feeds the **aiib-company-dossier** skill (Mode B).
+
+Depth is the whole point. This map is the foundation the rest of the funnel stands on — a shallow,
+3-bullet "economics summary" produces false signals that every downstream company screen inherits. So
+the bar is exhaustive sub-sector coverage and real numbers, not a tidy paragraph.
 
 ## Inputs
 
@@ -72,11 +79,3 @@ Stop and verify; if any answer is "no", fix it before returning:
 - [ ] **Provenance?** Is every numeric claim tagged 🟢/🔵/⚠️, with the no-live-sources banner if web was off?
 - [ ] **Mandate?** Is alignment scored from `aiib-mandate.md` (cited), not memory?
 - [ ] **Hand-off?** Is there a ranked, mandate-fit company shortlist for Mode B?
-
-## Hard rules
-
-- **Provenance on every claim** (`references/provenance.md`). Unsourced numbers → ⚠️ training-unverified.
-  No web access this run → produce the full output anyway, fully ⚠️-tagged, under the no-live-sources banner.
-- **Exhaustive, not lazy** — enumerate all sub-sectors; a 3-sub-sector scan of a 9-sub-sector sector is a failure.
-- **Include negative signals** — write-downs, stalled projects, payment delays, policy reversals.
-- **Mandate fit from `aiib-mandate.md`**, never from memory of what AIIB "probably" funds.

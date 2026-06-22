@@ -1,20 +1,28 @@
 ---
 name: aiib-company-dossier
 description: >-
-  Mode B of AIIB investment research. Given a company (optionally with country/sector context, or a row
-  from an aiib-sector-scan shortlist), produce a structured 5-section investment dossier: (1) background,
-  (2) forward guidance, (3) financials, (4) AIIB-mandate alignment against the 6 sectors + 4 thematic
-  priorities, (5) key people. Every claim is provenance-tagged (web-sourced vs. model-training vs.
-  connector) so unverified figures are visible. Use when the user wants a company deep-dive / investment
-  dossier / due-diligence brief for AIIB-style developing-markets infrastructure investing, names a
-  company to research, or hands over a shortlist from the aiib-sector-scan skill (Mode A). Built for a
-  web-search floor; uses subagents when available, runs sequentially when not.
+  Mode B of AIIB-style investment research: turn a company into a structured, sourced investment dossier.
+  Given a company (optionally with country/sector context, or a row from an aiib-sector-scan shortlist),
+  produce a 5-section dossier — background, forward guidance, financials, AIIB-mandate alignment (vs. the
+  6 sectors + 4 thematic priorities), key people — with every claim provenance-tagged (web vs. training
+  vs. connector) so unverified figures are visible. Use this whenever the user wants a company deep-dive,
+  investment dossier, due-diligence brief, company profile, or to assess a company as an investment —
+  especially for infrastructure / development-finance / emerging-market investing, or when they hand over
+  a shortlist from the aiib-sector-scan skill (Mode A). Trigger even if they never say "dossier" or
+  "AIIB" — e.g. "is <company> a good investment", "research <company> for me", "profile <company>",
+  "what's the investment case for <company>". Web-search floor; uses subagents when available, runs
+  sequentially when not.
 ---
 
 # AIIB Company Dossier (Mode B)
 
 Top-down funnel, stage two: **company → structured investment dossier.** Consumes the shortlist produced
 by the **aiib-sector-scan** skill (Mode A), or runs standalone on any named company.
+
+Integrity is the whole point. This dossier feeds an investment decision, so a confidently-stated wrong
+number is worse than an honest gap. A private company with thin public data yields a thin dossier — that
+is the correct output, never a reason to invent. Mark missing figures `[not available]`, tag every claim
+by source, and keep your own inferences visibly separate from sourced facts.
 
 ## Inputs
 
@@ -60,12 +68,3 @@ Stop and verify; if any answer is "no", fix it before returning:
 - [ ] **Mandate** scored from `aiib-mandate.md` (cited): sector + theme + climate + Strong/Partial/Out verdict?
 - [ ] **Provenance** on every claim (🟢/🔵/⚠️), with the no-live-sources banner if web was off?
 - [ ] **Fact vs inference** separated; a "Verify before relying" list of the riskiest unsourced claims included?
-
-## Hard rules
-
-- **Provenance on every claim** (`references/provenance.md`). Default to ⚠️ when unsure; numbers especially.
-  No web access this run → full dossier anyway, fully ⚠️-tagged, under the no-live-sources banner.
-- **Never fabricate** financials, guidance, or people. Missing = `[not available]`, explicitly. A private
-  company with thin public data yields a thin dossier — that is correct, not a reason to invent.
-- **Separate fact from inference** — label analytical judgments distinctly from sourced claims.
-- **Mandate fit from `references/aiib-mandate.md`**, cited — not from memory.
