@@ -31,6 +31,9 @@ Rules:
   **auto-installs yfinance on first use**. Use its EV/EBITDA, P/E, P/B, margins as 🟢 data. Only if it
   returns `unavailable` (sandbox blocks pip/network) fall back to web-eyeballed comps, ⚠️-tagged. Search
   specifically for NEGATIVE signals (write-downs, stalled projects, payment delays).
+- **Prefer PRIMARY sources** — go to the tariff order / auction-result notification / national plan /
+  company filing / rating action itself (WebFetch the document when WebSearch surfaces it), not a news
+  recap of it. Cite which you used.
 - **Tier the sub-sector** A/B/C on investability with a one-line reason.
 - Return ONLY the A–I block for your one sub-sector (it will be synthesized with the others). End with a
   one-line provenance summary (counts of web vs. training claims).
