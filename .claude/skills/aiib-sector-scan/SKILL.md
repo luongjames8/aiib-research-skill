@@ -77,14 +77,22 @@ worker for every sub-sector, you're overspending — tighten.
 listed-comp multiples with `scripts/fetch_financials.py <ticker>` (yfinance) when a code tool + network
 are available; else web. Tag by provenance.
 
-**Delegation — for the DEEP sub-sectors only.** Do the **cheap triage inline** (it's headline numbers
-from knowledge — spawning a worker for that wastes more than it saves). When a subagent tool exists,
-spawn one worker **per DEEP sub-sector — i.e. ~3, not one per sub-sector**, and let them do the A–I
-searches; you synthesize. ⛔ **Use `subagent_type: subsector-researcher` — NEVER `general-purpose`**
-(general-purpose has the Agent tool and will recurse into a runaway tree; subsector-researcher has only
-WebSearch/WebFetch/Read, so it can't). Each worker's budget: **~2–4 searches; prefer WebSearch, WebFetch
+**Delegation — MANDATORY for the deep A–I dives (if a subagent/Task tool exists).** Triage runs **inline**
+(cheap, headline numbers from knowledge). But the **deep 9-field A–I dives MUST be delegated** — **you,
+the orchestrator, do NOT run A–I web research in your own context.** Spawn one `subsector-researcher`
+subagent **per deep sub-sector (~3)** and have it do the searching; you only synthesize the returns.
+**If you catch yourself web-searching tariffs / IRRs / comps yourself for a deep sub-sector, STOP and
+spawn the subagent instead** — keeping the expensive orchestrator model off the heavy research is the
+whole point (the workers run on Sonnet). ⛔ **`subagent_type: subsector-researcher` — NEVER
+`general-purpose`** (general-purpose has the Agent tool and will recurse into a runaway tree;
+subsector-researcher has only WebSearch/WebFetch/Read, so it can't). Each worker's budget: **~2–4
+searches; prefer WebSearch, WebFetch
 only if a snippet is insufficient.** **Cap the fan-out:** ~6 workers concurrent max. Only when no
 subagent tool exists (claude.ai chat app) do the deep dives sequentially yourself.
+
+(Reality: for a small triaged scope the model may judge inline cheaper and skip delegation — that's
+acceptable and still bounded. To *guarantee* the cheap parallel-Sonnet path, the user runs the session
+on Sonnet and/or asks for delegation in the prompt — see the README "Controlling cost" section.)
 
 ### Step 3 — Mandate alignment + anchors (hand-off to sourcing)
 Map the sector and its sub-sectors to AIIB's 6 sectors + 4 thematic priorities using

@@ -105,6 +105,23 @@ Mode B:  "Build a dossier on <company>."                  →  7-section investm
 ```
 Typical flow: **A** (context + anchors) → **S** (source the private companies) → **B** (dossier each).
 
+### Controlling cost / the Sonnet subagents (Claude Code)
+
+A skill can't *force* Claude to delegate or pick a model — that's the model's call + your session config.
+Two levers that **do** work, verified live:
+
+1. **Run the session on Sonnet** — `claude --model sonnet` (or `/model sonnet` interactively). Then the
+   *whole* run — orchestrator and any subagents — is Sonnet. Cheapest, always works, and Sonnet is plenty
+   for web research + filling the template.
+2. **Tell it to delegate, in your prompt** — add e.g. *"delegate each deep sub-sector to a
+   `subsector-researcher` subagent"* (Mode S: `source-expander`; Mode B: `company-dossier-researcher`).
+   Verified: this makes it spawn the **purpose-built, non-recursive agents on Sonnet** while the
+   orchestrator stays on your session model — so the heavy searching runs cheap. Without this nudge, on a
+   small/triaged scan the model often just does it inline (fine, but on your session model).
+
+Either way the run is **bounded** — triage + round caps + per-worker search budgets + non-recursive
+agents mean it can't run away, whichever model it lands on.
+
 
 ## Disclaimer
 
