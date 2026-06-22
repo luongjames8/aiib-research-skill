@@ -9,9 +9,10 @@ description: >-
   assess the investment case for a sector or market — especially in developing/emerging markets for
   infrastructure or development-finance investing. Trigger on phrasings like "research <sector> in
   <country>", "what's the investment case for <sector> in <country>", "map the <sector> landscape",
-  "which companies operate in <country> <sector>", or anything about AIIB-mandate sectors (energy,
-  transport, water, digital infrastructure, sustainable cities, health) — even if the user never says
-  "sector scan" or "AIIB". Stage one of the funnel — its economics + anchors feed the aiib-company-sourcing
+  "size the <sector> opportunity in <country>", or anything about the economics of AIIB-mandate sectors
+  (energy, transport, water, digital infrastructure, sustainable cities, health) — even if the user never
+  says "sector scan" or "AIIB". (To *find or list the companies* in a sector, that's Mode S —
+  aiib-company-sourcing — not this skill.) Stage one of the funnel — its economics + anchors feed the aiib-company-sourcing
   skill (Mode S), which feeds the aiib-company-dossier skill (Mode B). Web-search floor; uses subagents
   when available, runs sequentially when not.
 ---

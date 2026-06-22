@@ -13,8 +13,9 @@ description: >-
   especially for infrastructure / development-finance / emerging-market investing, or when they hand over
   a candidate from the aiib-company-sourcing skill (Mode S). Trigger even if they never say "dossier" or
   "AIIB" — e.g. "is <company> a good investment", "research <company> for me", "profile <company>",
-  "what's the investment case for <company>". Web-search floor; uses subagents when available, runs
-  sequentially when not.
+  "what's the investment case for <company>". This skill is ONE named company at a time; for a SECTOR use
+  Mode A (aiib-sector-scan) and for a LIST of companies to look at use Mode S (aiib-company-sourcing).
+  Web-search floor; uses subagents when available, runs sequentially when not.
 ---
 
 # AIIB Company Dossier (Mode B)

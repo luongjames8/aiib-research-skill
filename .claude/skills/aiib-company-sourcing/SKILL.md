@@ -8,10 +8,11 @@ description: >-
   DFI/PE fund portfolios, decomposing the value chain, and sweeping deal trackers, PPP pipelines,
   credit-rating lists, and local-language sources. Use this whenever the user wants to find, discover,
   source, or build a pipeline/longlist/shortlist of companies or deal targets — "what companies should I
-  look at in <sector> <country>", "find private developers/operators/players in <sector>", "who competes
-  with <company>", "expand from <company> to its peers", origination/deal-sourcing — even if they never
-  say "sourcing". Sits between aiib-sector-scan (Mode A — context) and aiib-company-dossier (Mode B —
-  deep-dive); its output feeds Mode B. Web-search floor; uses subagents when available, sequential when not.
+  look at in <sector> <country>", "which companies operate in <country> <sector>", "find private
+  developers/operators/players in <sector>", "who competes with <company>", "list/expand from <company> to
+  its peers", origination/deal-sourcing — even if they never say "sourcing". Use this for the MANY-company
+  discovery step (a list); to deep-dive ONE named company use aiib-company-dossier (Mode B) instead. Sits
+  between aiib-sector-scan (Mode A — context) and aiib-company-dossier (Mode B — deep-dive); output feeds Mode B. Web-search floor; uses subagents when available, sequential when not.
 ---
 
 # AIIB Company Sourcing (Mode S)
