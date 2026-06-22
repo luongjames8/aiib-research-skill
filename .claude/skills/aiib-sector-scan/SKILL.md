@@ -54,17 +54,24 @@ edge. Do not stop at the obvious 3–4; be exhaustive.
 This scan is **context**, not a research report on every niche — so do **not** spend full depth
 uniformly. That is what makes a scan cost a fortune. Two gears:
 
-1. **Triage ALL sub-sectors cheaply (default).** For each, capture only the **headline economics** —
-   market size, price/tariff, IRR range, top 1–2 risks, and an A/B/C investability tier — mostly from
-   **background knowledge + AT MOST ONE confirming search** each (skip the search when you're already
-   confident). This ranks the sub-sectors. Most of a scan should be this cheap pass.
+1. **Triage ALL sub-sectors — search ADAPTIVELY, not flat-one-each.** For each, capture the **headline
+   economics** — market size, price/tariff, IRR range, top 1–2 risks, and an A/B/C investability tier.
+   Spend searches **where your confidence is low, not uniformly**:
+   - **Well-known sub-sector** (you know the rough size/tariff/IRR): **0–1 search** — a quick confirm, or
+     none + ⚠️-tag the numbers as training-based.
+   - **Niche / thinly-covered sub-sector** (frontier market, obscure segment): **~1–2 searches** — your
+     priors are weak, so verify before tiering it.
+   - **Borderline sub-sectors near the top-3 cutoff: search these the most.** Getting the *ranking* wrong
+     wastes the expensive deep budget on the wrong sub-sectors, so resolve close calls before committing
+     to which ~3 go deep. This is the highest-leverage place to spend a triage search.
 2. **Full A–I on the top ~3 most-investable sub-sectors only** (the 9-field `references/ai-template.md`).
    The rest stay at headline depth. **Exception:** if the user explicitly asks for a *deep / exhaustive /
    thorough* scan, run full A–I on all — but that's opt-in and expensive; say so.
 
-**Search budget — stay cheap.** A default scan should be on the order of **~1 search per sub-sector + a
-few per deep one (~12–18 searches total)**, NOT 3–5 per sub-sector. If you're firing dozens of searches
-or spawning a worker for every sub-sector, you're overspending — tighten.
+**Search budget — cheap, but weighted to uncertainty.** A default scan averages **~1 search per
+sub-sector — front-loaded on the niche + borderline ones, ~0 on the obvious ones — plus a few per deep
+one (~15–25 searches total)**, NOT 3–5 uniformly. If you're firing dozens of searches or spawning a
+worker for every sub-sector, you're overspending — tighten.
 
 **Data tiers** (`references/data-sources.md`): for the deep sub-sectors' field E (comps), pull free
 listed-comp multiples with `scripts/fetch_financials.py <ticker>` (yfinance) when a code tool + network
@@ -106,8 +113,10 @@ Stop and verify; if any answer is "no", fix it before returning:
       (Listing is cheap; this stays exhaustive.)
 - [ ] **Triaged + targeted depth?** Does every sub-sector have **headline economics + a tier**, and the
       **top ~3** the full 9-field A–I with numbers? (Full A–I on *all* only if the user asked for a deep scan.)
-- [ ] **Stayed in budget?** Roughly ~1 search/sub-sector + a few for the deep ones — not dozens of
-      searches or a worker per sub-sector?
+- [ ] **Confident in the top-3 pick?** Did I search the **borderline** sub-sectors enough to trust the
+      ranking — not deep-dive the wrong 3 off thin triage? (Search weighted to niche/uncertain, ~0 on obvious.)
+- [ ] **Stayed in budget?** ~1 search/sub-sector on average (front-loaded on uncertainty) + a few for the
+      deep ones — not dozens, and not a worker per sub-sector?
 - [ ] **Bad news?** Did I include negative signals (write-downs, stalled projects, payment delays) on the deep ones?
 - [ ] **Provenance?** Is every numeric claim tagged 🟢/🔵/⚠️, with the no-live-sources banner if web was off?
 - [ ] **Mandate?** Is alignment scored from `aiib-mandate.md` (cited), not memory?
