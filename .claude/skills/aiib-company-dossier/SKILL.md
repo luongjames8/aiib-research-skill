@@ -52,6 +52,15 @@ Per company: a header (name + one-line identity + provenance banner) then the **
 each ending with a provenance summary line, then a short **"Verify before relying"** list of the
 highest-risk unsourced claims.
 
+## Self-check before returning (depth gate — do this every run)
+
+Stop and verify; if any answer is "no", fix it before returning:
+- [ ] **All 5 sections** present (background · forward guidance · financials · mandate alignment · key people)?
+- [ ] **Financials with numbers**, each tagged — and every missing figure marked `[not available]`, not invented?
+- [ ] **Mandate** scored from `aiib-mandate.md` (cited): sector + theme + climate + Strong/Partial/Out verdict?
+- [ ] **Provenance** on every claim (🟢/🔵/⚠️), with the no-live-sources banner if web was off?
+- [ ] **Fact vs inference** separated; a "Verify before relying" list of the riskiest unsourced claims included?
+
 ## Hard rules
 
 - **Provenance on every claim** (`references/provenance.md`). Default to ⚠️ when unsure; numbers especially.

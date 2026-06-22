@@ -62,6 +62,17 @@ and provenance. These are the inputs the user feeds to the aiib-company-dossier 
 4. **AIIB mandate alignment** — sector/theme match + Strong/Partial/Out verdict.
 5. **Company shortlist** — ranked, mandate-fit, with provenance — the hand-off to Mode B.
 
+## Self-check before returning (depth gate — do this every run)
+
+Stop and verify; if any answer is "no", fix it before returning:
+- [ ] **Exhaustive?** Did I enumerate ALL the sector's sub-sectors (not just the obvious 3–4)?
+- [ ] **Depth?** Does EVERY sub-sector have all 9 A–I fields with **actual numbers**? A one-paragraph
+      sub-sector is a FAILURE — redo it.
+- [ ] **Bad news?** Did I include negative signals (write-downs, stalled projects, payment delays)?
+- [ ] **Provenance?** Is every numeric claim tagged 🟢/🔵/⚠️, with the no-live-sources banner if web was off?
+- [ ] **Mandate?** Is alignment scored from `aiib-mandate.md` (cited), not memory?
+- [ ] **Hand-off?** Is there a ranked, mandate-fit company shortlist for Mode B?
+
 ## Hard rules
 
 - **Provenance on every claim** (`references/provenance.md`). Unsourced numbers → ⚠️ training-unverified.
