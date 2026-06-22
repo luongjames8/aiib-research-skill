@@ -2,9 +2,9 @@
 name: aiib-sector-scan
 description: >-
   Mode A of AIIB-style infrastructure investment research: turn a country + sector into a sourced market map.
-  Enumerate all sub-sectors, triage cheaply, deep-dive the most-investable few through a 9-field economics
-  template (size, tariffs, margins, IRRs, comps, track record, risks, competitors), and surface mandate-fit
-  anchor companies. Use whenever the user wants to research, map, size, or assess the investment case for a
+  Enumerate and deep-dive EVERY sub-sector (a wide net, not a pre-judged few) through a 9-field economics
+  template (size, tariffs, margins, IRRs, comps, track record, risks, competitors), then tier them and
+  surface mandate-fit anchor companies. Use whenever the user wants to research, map, size, or assess the investment case for a
   sector or market — especially developing/emerging-market infrastructure or development finance — e.g.
   "research Indonesia renewables", "map the Vietnam data-center landscape", "investment case for Philippine
   water". Triggers on any AIIB-mandate sector (energy, transport, water, digital infrastructure, sustainable
@@ -19,11 +19,11 @@ Top-down funnel, stage one: **Country · Sector → sub-sector economics + ancho
 a live deal-sourcing system. Output (economics + anchors) feeds the **aiib-company-sourcing** skill
 (Mode S) → which feeds the **aiib-company-dossier** skill (Mode B).
 
-Depth **where it counts**. This map is the foundation the funnel stands on, so it must be more than a
-3-bullet summary — but it is *context*, not a research report on every niche. Be **exhaustive in
-enumerating** the sub-sectors, triage them all cheaply, and spend real depth only on the **top few** that
-matter (Step 2). Going full-depth on every sub-sector is what makes a scan cost a fortune for little
-added signal.
+Cast a **wide net** — research **every** sub-sector, don't pre-judge which few are "most investable" and
+skip the rest (that's a guess made *before* you have evidence). The whole point of this map is breadth:
+the funnel downstream relies on it. Cost stays bounded not by *dropping* sub-sectors but by the **fan-out
+shape** — one bounded Sonnet worker per sub-sector, **one level deep (no subagent ever spawns another)**,
+in concurrency-capped waves, each on a small search budget (Step 2).
 
 ## Inputs
 
@@ -31,10 +31,9 @@ added signal.
   Sustainable Cities, Digital Infrastructure, Water, Health) — see `references/aiib-mandate.md`. Accept
   the user's phrasing and map it (e.g. "renewables" → Energy; "logistics" → Transport; "data centers" →
   Digital Infrastructure).
-- **Optional:** **depth** — `screening` (DEFAULT: triage all sub-sectors + full A–I on the top ~3) or
-  `deep`/`exhaustive` (full A–I on every sub-sector — opt-in, much costlier). Also: quarter/timeframe
-  (default current), a sub-sector focus, number of anchors. Read the user's intent for depth too — words
-  like "quick / overview / just the landscape" → screening; "deep / thorough / exhaustive" → deep.
+- **Optional:** **depth** — `full` (DEFAULT: full A–I on **every** sub-sector — the wide net) or
+  `quick`/`overview` (one-line headline + tier per sub-sector, no full A–I — only if the user explicitly
+  wants speed over coverage). Also: quarter/timeframe (default current), a sub-sector focus, number of anchors.
 
 ## Workflow
 
@@ -46,49 +45,35 @@ misses). Tag each sub-sector's provenance. Example — Renewables → utility-sc
 generation. Digital Infrastructure → data centers (colo + hyperscale) · fiber · towers · subsea cable ·
 edge. Do not stop at the obvious 3–4; be exhaustive.
 
-### Step 2 — Triage all cheaply, deep-dive only the few (DEPTH CONTROL — read this)
-This scan is **context**, not a research report on every niche — so do **not** spend full depth
-uniformly. That is what makes a scan cost a fortune. Two gears:
+### Step 2 — Research EVERY sub-sector (wide net), then tier from the evidence
+Do **not** pre-rank sub-sectors and skip the "lesser" ones — that judgment, made before any research, is
+the thing to avoid. **Cover all of them.** Run **each** enumerated sub-sector through the 9-field A–I
+template (`references/ai-template.md`: market economics · pricing/tariff · margins · revenue quality ·
+valuation/comps · track record incl. blow-ups · IRR · named risks · competitive landscape). Only *after*
+you have the evidence do you assign each an A/B/C investability tier and rank them.
 
-1. **Triage ALL sub-sectors — search ADAPTIVELY, not flat-one-each.** For each, capture the **headline
-   economics** — market size, price/tariff, IRR range, top 1–2 risks, and an A/B/C investability tier.
-   Spend searches **where your confidence is low, not uniformly**:
-   - **Well-known sub-sector** (you know the rough size/tariff/IRR): **0–1 search** — a quick confirm, or
-     none + ⚠️-tag the numbers as training-based.
-   - **Niche / thinly-covered sub-sector** (frontier market, obscure segment): **~1–2 searches** — your
-     priors are weak, so verify before tiering it.
-   - **Borderline sub-sectors near the top-3 cutoff: search these the most.** Getting the *ranking* wrong
-     wastes the expensive deep budget on the wrong sub-sectors, so resolve close calls before committing
-     to which ~3 go deep. This is the highest-leverage place to spend a triage search.
-2. **Full A–I on the top ~3 most-investable sub-sectors only** (the 9-field `references/ai-template.md`).
-   The rest stay at headline depth. **Exception:** if the user explicitly asks for a *deep / exhaustive /
-   thorough* scan, run full A–I on all — but that's opt-in and expensive; say so.
+**Cost is bounded by the fan-out SHAPE, not by dropping sub-sectors** (this is the rule you care about):
+- **One bounded worker per sub-sector.** When a subagent/Task tool exists, spawn one `subsector-researcher`
+  subagent per sub-sector (Sonnet — cheap). ⛔ **`subagent_type: subsector-researcher` — NEVER
+  `general-purpose`** (general-purpose has the Agent tool; subsector-researcher does not).
+- **ONE level deep — no subagent ever spawns another.** Orchestrator → workers, full stop. This is what
+  prevents the runaway (the old blowup was subagents-spawning-subagents, ~39→174 agents), *not* a coverage limit.
+- **Concurrency-capped waves.** At most **~6 workers running at once**; more sub-sectors than that →
+  dispatch in **waves of ~6**. Every sub-sector still gets covered — you just don't run 12 at once.
+- **Per-worker search budget.** Each worker: **~2–4 searches; WebSearch first, WebFetch only when a
+  snippet won't do.**
 
-**Search budget — cheap, but weighted to uncertainty.** A default scan averages **~1 search per
-sub-sector — front-loaded on the niche + borderline ones, ~0 on the obvious ones — plus a few per deep
-one (~15–25 searches total)**, NOT 3–5 uniformly. If you're firing dozens of searches or spawning a
-worker for every sub-sector, you're overspending — tighten.
+So ~8 renewable sub-sectors → ~8 bounded Sonnet workers across ~2 waves: **wide coverage, bounded cost,
+no recursion.** (Optional: if the user explicitly asks for a *quick / overview* scan, you may instead give
+each sub-sector a one-line headline + tier without the full A–I — but the **default is full coverage**.)
 
-**Data tiers** (`references/data-sources.md`): for the deep sub-sectors' field E (comps), pull free
-listed-comp multiples with `scripts/fetch_financials.py <ticker>` (yfinance) when a code tool + network
-are available; else web. Tag by provenance.
+**Data tiers** (`references/data-sources.md`): for field E (comps), workers pull free listed-comp
+multiples with `scripts/fetch_financials.py <ticker>` (yfinance) when a code tool + network are available;
+else web. Tag by provenance.
 
-**Delegation — MANDATORY for the deep A–I dives (if a subagent/Task tool exists).** Triage runs **inline**
-(cheap, headline numbers from knowledge). But the **deep 9-field A–I dives MUST be delegated** — **you,
-the orchestrator, do NOT run A–I web research in your own context.** Spawn one `subsector-researcher`
-subagent **per deep sub-sector (~3)** and have it do the searching; you only synthesize the returns.
-**If you catch yourself web-searching tariffs / IRRs / comps yourself for a deep sub-sector, STOP and
-spawn the subagent instead** — keeping the expensive orchestrator model off the heavy research is the
-whole point (the workers run on Sonnet). ⛔ **`subagent_type: subsector-researcher` — NEVER
-`general-purpose`** (general-purpose has the Agent tool and will recurse into a runaway tree;
-subsector-researcher has only WebSearch/WebFetch/Read, so it can't). Each worker's budget: **~2–4
-searches; prefer WebSearch, WebFetch
-only if a snippet is insufficient.** **Cap the fan-out:** ~6 workers concurrent max. Only when no
-subagent tool exists (claude.ai chat app) do the deep dives sequentially yourself.
-
-(Reality: for a small triaged scope the model may judge inline cheaper and skip delegation — that's
-acceptable and still bounded. To *guarantee* the cheap parallel-Sonnet path, the user runs the session
-on Sonnet and/or asks for delegation in the prompt — see the README "Controlling cost" section.)
+**No subagent tool (claude.ai chat app):** work through every sub-sector sequentially yourself, same A–I
+template + per-sub-sector search budget. To guarantee the cheap parallel-Sonnet path on Claude Code, run
+the session on Sonnet and/or ask for delegation in the prompt (see README "Controlling cost").
 
 ### Step 3 — Mandate alignment + anchors (hand-off to sourcing)
 Map the sector and its sub-sectors to AIIB's 6 sectors + 4 thematic priorities using
@@ -102,10 +87,10 @@ these anchors into the ranked private-candidate list. Hand the sub-sector econom
 
 1. **Header** — `<Country> · <Sector>` + coverage note (N sub-sectors covered) + a provenance banner
    (especially the ⚠️ no-live-sources banner if web access is unavailable — see provenance.md).
-2. **Sub-sector triage + deep-dives** — headline economics + an A/B/C tier for **all** sub-sectors; a
-   full A–I block for the **top ~3** most-investable (or all, in deep mode), each with a provenance line.
+2. **Sub-sector deep-dives — one full A–I block per sub-sector** (every enumerated one, not a subset),
+   each ending with a provenance line. (`quick`/`overview` mode: a one-line headline + tier per sub-sector instead.)
 3. **Sector synthesis** — cross-sub-sector comparison table (sub-sector | IRR range | tariff | margin
-   trend | cycle | tier) + which sub-sectors are most investable and why (bear case named).
+   trend | cycle | tier) + which sub-sectors rank most investable **and why, from the evidence** (bear case named).
 4. **AIIB mandate alignment** — sector/theme match + Strong/Partial/Out verdict.
 5. **Anchors** — listed leaders / DFI investees / deal winners per high-conviction sub-sector, with
    provenance — the hand-off to **aiib-company-sourcing** (Mode S).
@@ -113,15 +98,11 @@ these anchors into the ranked private-candidate list. Hand the sub-sector econom
 ## Self-check before returning (depth gate — do this every run)
 
 Stop and verify; if any answer is "no", fix it before returning:
-- [ ] **Exhaustive enumeration?** Did I *list* ALL the sector's sub-sectors (not just the obvious 3–4)?
-      (Listing is cheap; this stays exhaustive.)
-- [ ] **Triaged + targeted depth?** Does every sub-sector have **headline economics + a tier**, and the
-      **top ~3** the full 9-field A–I with numbers? (Full A–I on *all* only if the user asked for a deep scan.)
-- [ ] **Confident in the top-3 pick?** Did I search the **borderline** sub-sectors enough to trust the
-      ranking — not deep-dive the wrong 3 off thin triage? (Search weighted to niche/uncertain, ~0 on obvious.)
-- [ ] **Stayed in budget?** ~1 search/sub-sector on average (front-loaded on uncertainty) + a few for the
-      deep ones — not dozens, and not a worker per sub-sector?
-- [ ] **Bad news?** Did I include negative signals (write-downs, stalled projects, payment delays) on the deep ones?
+- [ ] **Wide net?** Did I enumerate ALL sub-sectors AND run the **full A–I on every one** (not pre-rank
+      and skip the "lesser" ones)? Tiering came **after** the research, from evidence — not a priori.
+- [ ] **Fan-out bounded by shape, not coverage?** One `subsector-researcher` per sub-sector (never
+      general-purpose), **one level deep (no subagent spawned another)**, run in waves of ~6, each ~2–4 searches?
+- [ ] **Bad news?** Did I include negative signals (write-downs, stalled projects, payment delays)?
 - [ ] **Provenance?** Is every numeric claim tagged 🟢/🔵/⚠️, with the no-live-sources banner if web was off?
 - [ ] **Mandate?** Is alignment scored from `aiib-mandate.md` (cited), not memory?
 - [ ] **Hand-off?** Are anchors (listed leaders / DFI investees / deal winners) surfaced for Mode S sourcing?
