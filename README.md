@@ -23,6 +23,15 @@ Mode B  company dossier   → deep-dive each candidate, in sector context (the d
   financials (margins, earnings quality, peer multiples) · valuation & bull/base/bear scenarios ·
   AIIB-mandate alignment incl. ESG · key people & management quality · risk assessment.
 
+> ### ▶ See it work first
+> Three **real, live outputs** (Claude Code, 2026-06-23) show the whole funnel in action — start here:
+> 1. [India renewables — sector scan](examples/india-renewables-sector-scan.md) *(Mode A)*
+> 2. [India solar — private-company pipeline](examples/india-solar-company-sourcing.md) *(Mode S)*
+> 3. [Sunsure Energy — investment dossier](examples/sunsure-energy-dossier.md) *(Mode B)*
+>
+> They're **one run end-to-end**: A's anchors fed S; S's top private name (Sunsure) fed B. Comps are
+> live yfinance, claims are provenance-tagged, and the work runs on cheap Sonnet subagents.
+
 ### Design principles
 
 - **Provenance-tagged.** Every claim is marked 🟢 web-sourced / 🔵 connector / ⚠️ training-unverified, so
