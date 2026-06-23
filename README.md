@@ -105,9 +105,12 @@ Mode B:  "Build a dossier on <company>."                  →  7-section investm
 ```
 Typical flow: **A** (context + anchors) → **S** (source the private companies) → **B** (dossier each).
 
-**See a real run:** [`examples/india-renewables-sector-scan.md`](examples/india-renewables-sector-scan.md)
-— a live Mode-A scan (12 sub-sectors, 2 waves of 6 Sonnet workers, primary-sourced, **comps verified
-live via yfinance**; 46 🟢 live claims vs 2 ⚠️).
+**See real runs** (live, 2026-06-23, clean Claude Code session):
+- [`examples/india-renewables-sector-scan.md`](examples/india-renewables-sector-scan.md) — Mode A: 12
+  sub-sectors, 2 waves of 6 Sonnet workers, primary-sourced, **comps verified live via yfinance** (46 🟢 / 2 ⚠️).
+- [`examples/india-solar-company-sourcing.md`](examples/india-solar-company-sourcing.md) — Mode S: **121
+  companies (96 private)** over 3 iterative rounds, 13 `source-expander` workers (zero recursion),
+  deterministic dedup, ranked deal pipeline with PE/DFI backers.
 
 ### Controlling cost / the Sonnet subagents (Claude Code)
 
