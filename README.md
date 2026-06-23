@@ -111,6 +111,12 @@ Typical flow: **A** (context + anchors) → **S** (source the private companies)
 - [`examples/india-solar-company-sourcing.md`](examples/india-solar-company-sourcing.md) — Mode S: **121
   companies (96 private)** over 3 iterative rounds, 13 `source-expander` workers (zero recursion),
   deterministic dedup, ranked deal pipeline with PE/DFI backers.
+- [`examples/sunsure-energy-dossier.md`](examples/sunsure-energy-dossier.md) — Mode B: a 7-section dossier
+  on a **private** Tier-1 name from the sourcing list, screened within the sub-sector economics;
+  company financials from rating rationales + DFI disclosure, listed-peer comps via yfinance.
+
+These three are one funnel run end-to-end: **A** (India renewables) → **S** (solar private pipeline) →
+**B** (Sunsure dossier).
 
 ### Controlling cost / the Sonnet subagents (Claude Code)
 
