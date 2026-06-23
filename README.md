@@ -105,6 +105,10 @@ Mode B:  "Build a dossier on <company>."                  →  7-section investm
 ```
 Typical flow: **A** (context + anchors) → **S** (source the private companies) → **B** (dossier each).
 
+**See a real run:** [`examples/india-renewables-sector-scan.md`](examples/india-renewables-sector-scan.md)
+— a live Mode-A scan (12 sub-sectors, 2 waves of 6 Sonnet workers, primary-sourced, **comps verified
+live via yfinance**; 46 🟢 live claims vs 2 ⚠️).
+
 ### Controlling cost / the Sonnet subagents (Claude Code)
 
 A skill can't *force* Claude to delegate or pick a model — that's the model's call + your session config.
