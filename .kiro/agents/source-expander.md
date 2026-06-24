@@ -41,7 +41,8 @@ knowledge alone without an ⚠️ tag.
   [{"name": "", "anchor": "", "method": "", "private": true, "provenance": "", "sub_sector": ""}, …]
   ```
   The orchestrator merges across anchors. Aim for breadth — surface names the obvious search would miss.
-  Add a one-line provenance summary after the JSON.
+  Return ONLY the JSON array — no prose before or after (the orchestrator pipes it straight into
+  `dedup_candidates.py`, which `json.loads`-es it). Provenance lives in each object's `provenance` field.
 
 ## Non-recursion
 

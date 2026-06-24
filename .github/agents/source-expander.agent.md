@@ -75,4 +75,6 @@ deterministically:
 The orchestrator merges across anchors via `aiib-research/scripts/dedup_candidates.py`. Aim for
 breadth — surface names the obvious search would miss.
 
-Add a one-line provenance summary after the JSON (counts of 🟢, 🔵, ⚠️ claims).
+Return ONLY the JSON array — **no prose before or after it.** The orchestrator pipes your raw output
+straight into `dedup_candidates.py`, which `json.loads`-es it; any trailing summary breaks parsing.
+Provenance lives in each object's `provenance` field.

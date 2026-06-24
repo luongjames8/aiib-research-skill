@@ -75,8 +75,10 @@ decomposition, source sweep, local-language mining.
    `agent` tool, each given: one anchor/method to expand **and the current `found` list**, with
    the instruction "return only companies NOT already in this list." Fire all workers in a batch
    concurrently — do not wait for one before starting the next.
-3. **Dedup** the round's returns into `found` by running
-   `cat all.json | python aiib-research/scripts/dedup_candidates.py`.
+3. **Dedup** the round's returns into `found`: collect the workers' JSON arrays into **one valid JSON
+   document** — an array of the per-worker arrays, `[[...], [...]]` (the script flattens it one level) —
+   as `all.json`, then run `cat all.json | python aiib-research/scripts/dedup_candidates.py`. Do NOT
+   concatenate the raw worker outputs (`[...][...]` is invalid JSON).
 4. **Decide.** If the round added **≥ ~3 new names**, run another round — expand from the most
    promising **new** names + any method/value-chain link not yet worked. If it added **< ~3 (dry)** or
    you've hit the round cap (~4–5 rounds), **stop.**

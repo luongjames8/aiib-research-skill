@@ -72,9 +72,11 @@ anchors/methods/rounds collapses to **ONE entry** — record that it was multi-s
 **strength signal** (rank it higher), not a duplicate to discard.
 
 **In environments with filesystem access, dedup deterministically — don't eyeball it.** Have each worker
-return its candidates as a JSON array (`{"name","anchor","method","private","provenance"}`), concatenate
-all workers' arrays into one file, and run
-`cat all.json | python aiib-research/scripts/dedup_candidates.py`.
+return its candidates as a JSON array (`{"name","anchor","method","private","provenance"}`), collect the
+workers' arrays into **one valid JSON document** — an array of the per-worker arrays, `[[...], [...]]`
+(the script flattens it one level) — written to `all.json`, and run
+`cat all.json | python aiib-research/scripts/dedup_candidates.py`. Do NOT just concatenate the worker
+outputs (`[...][...]` is invalid JSON and the script will reject it).
 It normalizes names (strips `PT`/`Tbk`/`Group`/`Ltd`/… noise, lowercases), merges duplicates across
 workers, ranks multi-sourced names first, and emits one entry per company. It is **conservative** — it
 will NOT merge `X` with `X Geothermal` (possible parent/subsidiary), so do a quick **judgment pass** to
