@@ -3,7 +3,7 @@
 The dossier structure: the **5 core sections** plus **2 analytical sections** (Valuation & scenarios,
 Risk) adapted from institutional equity-research practice for AIIB-style direct/PE infrastructure
 investing. Produce every section; tag every claim by provenance (`provenance.md`); pull hard numbers
-from Tier-1 free data when available (`data-sources.md` + `scripts/fetch_financials.py`), else web search.
+from Tier-1 free data when available (`data-sources.md` + `aiib-research/scripts/fetch_financials.py`), else web search.
 This is an investment-screening artifact: missing data is flagged, never fabricated.
 
 **Judge the company relative to its sub-sector.** Numbers are only meaningful against the sub-sector
@@ -49,7 +49,7 @@ exists, say so — don't invent targets.
 
 ## 3. Financials
 
-Real numbers, each tagged; prefer the Tier-1 yfinance pull (`scripts/fetch_financials.py <ticker>`)
+Real numbers, each tagged; prefer the Tier-1 yfinance pull (`aiib-research/scripts/fetch_financials.py <ticker>`)
 for listed names, else filings/web. Cover:
 - **Performance** — revenue growth (YoY/QoQ), margins (gross / operating / EBITDA / net) **with
   historical trend**, net income, **earnings quality** (GAAP vs. adjusted, one-time items).

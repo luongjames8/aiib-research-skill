@@ -152,9 +152,11 @@ Two scripts under `aiib-research/scripts/` are invoked by workers via Bash:
 - **`fetch_financials.py <ticker>`** — pulls EV/EBITDA, P/E, P/B, revenue, margins via yfinance.
   Auto-installs yfinance on first use if pip is available. Returns `unavailable` if network is blocked,
   triggering graceful fallback to web search. Results tagged 🟢.
-- **`dedup_candidates.py`** — reads concatenated JSON arrays from `source-expander` workers on stdin,
-  normalizes company names (strips legal suffixes, lowercases), merges duplicates, ranks multi-sourced
-  names first, and emits one entry per company. Used by the Mode S orchestrator between sourcing rounds.
+- **`dedup_candidates.py`** — reads **one JSON document** on stdin (a flat array, or an array of the
+  per-worker arrays `[[...],[...]]`, which it flattens one level — do NOT pipe adjacent `[...][...]`,
+  that's invalid JSON), normalizes company names (strips legal suffixes, lowercases), merges duplicates,
+  ranks multi-sourced names first, and emits one entry per company. Used by the Mode S orchestrator
+  between sourcing rounds.
 
 ---
 

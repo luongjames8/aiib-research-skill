@@ -14,7 +14,7 @@ them from web pages. Tag the result 🟢 with the source + as-of date.
   key. Broad **international** coverage via exchange suffixes — ideal for AIIB markets:
   `.JK` Jakarta · `.BK`/`.BKK` Bangkok · `.NS`/`.BO` India · `.SA` São Paulo · `.SN` Santiago ·
   `.IS` Istanbul · `.VN`/`.HM` Vietnam (coverage varies) · `.HK` Hong Kong. A bundled helper script,
-  `scripts/fetch_financials.py`, wraps this — prefer it over re-writing yfinance calls each run.
+  `aiib-research/scripts/fetch_financials.py`, wraps this — prefer it over re-writing yfinance calls each run.
 - **SEC EDGAR** — US filings (10-K/10-Q/8-K) + the `data.sec.gov` company-facts JSON API. Free, no key.
   Use for any **US-listed** company or comp; limited for the many non-US AIIB targets.
 - **stooq** — free historical prices with decent international coverage; a good cross-check / fallback
@@ -26,7 +26,7 @@ them from web pages. Tag the result 🟢 with the source + as-of date.
   copyleft consideration, so prefer them unless OpenBB is already present.
 - **FRED** (macro: rates, FX, inflation) — free but needs a free API key; use only if the user provides one.
 
-How to use Tier 1: run `python scripts/fetch_financials.py <TICKER>` via Bash, parse the JSON, and build
+How to use Tier 1: run `python aiib-research/scripts/fetch_financials.py <TICKER>` (one or more tickers), parse the JSON, and build
 the Financials + peer-comparison + valuation inputs from real numbers. **The script auto-installs yfinance
 on first use** (a one-time quiet `pip install`), so no setup is needed — just run it. The subagents that
 need this (`subsector-researcher`, `company-dossier-researcher`) have the Bash tool for exactly this; they

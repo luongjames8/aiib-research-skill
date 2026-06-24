@@ -149,7 +149,7 @@ time. Check the ID in those files is a valid Kiro model and update it there if n
 "current Sonnet", so track the ID, not just the name.
 
 **`dedup_candidates.py` requires Bash access.**
-Mode S deduplication runs `scripts/dedup_candidates.py` via Bash in the orchestrator session. The
+Mode S deduplication runs `aiib-research/scripts/dedup_candidates.py` via Bash in the orchestrator session. The
 orchestrator steering file has Bash in its tool list. Workers (`source-expander`) do not have Bash
 — they return raw JSON arrays; the orchestrator concatenates and deduplicates. Do not move the dedup
 step into a worker.
