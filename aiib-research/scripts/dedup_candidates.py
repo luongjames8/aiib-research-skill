@@ -20,6 +20,7 @@ Output (stdout): JSON array, one entry per distinct company, sorted by source_co
 import json
 import re
 import sys
+import unicodedata
 from collections import OrderedDict
 
 # Legal / suffix noise stripped before comparing names.
@@ -32,8 +33,10 @@ _SUFFIXES = {
 
 def normalize(name):
     s = (name or "").lower()
+    # fold accents (São → sao, é → e) so accented + transliterated variants share a key
+    s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode("ascii")
     s = re.sub(r"[.,/&()'\"]+", " ", s)          # drop punctuation
-    s = re.sub(r"[^a-z0-9 ]+", " ", s)            # drop non-ascii/diacritic remnants
+    s = re.sub(r"[^a-z0-9 ]+", " ", s)            # drop any remaining non-ascii
     toks = [t for t in s.split() if t and t not in _SUFFIXES]
     return " ".join(toks).strip()
 
