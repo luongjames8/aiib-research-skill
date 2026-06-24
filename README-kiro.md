@@ -43,27 +43,27 @@ Kiro steering files carry a YAML front matter `mode` field:
 
 ### What is in each file
 
-**`aiib-mandate.md`** — `mode: always`
+**`aiib-mandate.md`** — `inclusion: always`
 
 The AIIB mandate (6 sectors, 4 thematic priorities, 2030 targets, sourced from aiib.org 2026-06-22).
 Always-on so mandate alignment is never disconnected from the agent's context, regardless of which
 mode is running.
 
-**`sector-scan.md`** — `mode: auto`
+**`sector-scan.md`** — `inclusion: auto`
 
 The Mode A (sector scan) system prompt: enumerate every sub-sector, run the 9-field A-I economics
 template on each, tier from evidence, surface anchors. Fires automatically on requests like
 "research Indonesia renewables", "map the Vietnam data-center landscape", "investment case for
 Philippine water", and any AIIB-mandate sector framing.
 
-**`company-sourcing.md`** — `mode: auto`
+**`company-sourcing.md`** — `inclusion: auto`
 
 The Mode S (company sourcing) system prompt: graph-expand anchors in iterative rounds, dedup with
 `dedup_candidates.py`, rank private candidates. Fires automatically on "find private solar developers
 in Indonesia", "who competes with this company", "build a pipeline of geothermal names", and similar
 deal-sourcing language.
 
-**`company-dossier.md`** — `mode: auto`
+**`company-dossier.md`** — `inclusion: auto`
 
 The Mode B (company dossier) system prompt: 7-section structured investment dossier screened within
 sub-sector economics. Fires automatically on "build a dossier on Sunsure Energy", "is this a good
