@@ -12,7 +12,7 @@ description: >-
   LIST companies in a sector, use AIIB Company Sourcing instead. Stage one of the funnel; feeds AIIB Company
   Sourcing then AIIB Company Dossier.
 tools:
-  - runSubagent
+  - agent
   - search/codebase
   - web
   - read/terminalLastCommand
@@ -69,7 +69,7 @@ Do **not** pre-rank sub-sectors and skip the "lesser" ones — that judgment, ma
 the thing to avoid. **Cover all of them.**
 
 **Spawn one `Subsector Researcher` subagent per sub-sector, running ALL of them IN PARALLEL** (using the
-`runSubagent` tool). Do not wait for one to finish before starting the next — fire them all concurrently.
+`agent` tool). Do not wait for one to finish before starting the next — fire them all concurrently.
 If there are more than ~6 sub-sectors, dispatch in **waves of ~6 at a time** — every sub-sector still gets
 covered, you just cap concurrent workers to avoid runaway resource use.
 
@@ -85,7 +85,7 @@ Pass each `Subsector Researcher` worker:
 - The provenance tagging rules (per `.github/copilot-instructions.md`)
 
 **ONE level deep — workers must not spawn further subagents.** The `Subsector Researcher` agent type is
-non-recursive (it has no `runSubagent` tool). This is what prevents runaway recursion; do not work around it.
+non-recursive (it has no `agent` tool). This is what prevents runaway recursion; do not work around it.
 
 After all waves complete, collect every worker's output. Only *then* assign each sub-sector an A/B/C
 investability tier and rank them — tiering comes **after** the evidence, not before.

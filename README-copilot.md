@@ -73,8 +73,8 @@ corresponding orchestrator agent.
 **`.github/agents/` — mode orchestrators + worker subagents.**
 Agent `.md` files define named agents. Three are user-invocable mode orchestrators (one per research
 mode); three are worker subagents that the orchestrators spawn. Workers are marked
-`userInvocable: false`, which hides them from the agent picker — they only appear in the orchestrator's
-`runSubagent` calls, not as options the user can select directly.
+`user-invocable: false`, which hides them from the agent picker — they only appear in the orchestrator's
+`agent` calls, not as options the user can select directly.
 
 ---
 
@@ -94,25 +94,25 @@ Open Copilot chat, switch to agent mode, type the slash command and fill in the 
 Click the agent icon in Copilot chat, select **AIIB Sector Scan**, **AIIB Company Sourcing**, or
 **AIIB Company Dossier**, then describe the task. The three worker agents (`subsector-researcher`,
 `source-expander`, `company-dossier-researcher`) do not appear in the picker because they are marked
-`userInvocable: false`.
+`user-invocable: false`.
 
 ---
 
 ## Parallel subagents
 
 Subagent fan-out is a **first-party VS Code feature** (Copilot agent mode, not a workaround). The mode
-orchestrators use `runSubagent` to spawn worker agents in parallel:
+orchestrators use `agent` to spawn worker agents in parallel:
 
 - **Mode A** spawns one `subsector-researcher` per sub-sector, in waves of up to ~6 concurrent workers.
 - **Mode S** spawns a batch of ~3–4 `source-expander` workers per sourcing round, then decides whether
   to run another round based on how many new names were found.
 - **Mode B** spawns one `company-dossier-researcher` per company (up to ~6 concurrent).
 
-Workers are initiated by the orchestrator agent (`runSubagent`), not by the user, which is why the
+Workers are initiated by the orchestrator agent (`agent`), not by the user, which is why the
 "agent-initiated" phrasing applies. The orchestrator merges their returns and produces the final output.
 
 **Non-recursion is enforced by design.** The worker agents (`subsector-researcher`, `source-expander`,
-`company-dossier-researcher`) do not have the `runSubagent` capability — they have web search, file
+`company-dossier-researcher`) do not have the `agent` capability — they have web search, file
 read, and (where relevant) Bash for `fetch_financials.py`, nothing else. This structurally prevents a
 worker from spawning further sub-workers. The recursion risk (which can fan into hundreds of agents) is
 not mitigated by a prompt instruction; it is prevented by capability omission.

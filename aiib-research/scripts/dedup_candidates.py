@@ -10,7 +10,8 @@ Usage:
   cat all_candidates.json | python dedup_candidates.py
   python dedup_candidates.py all_candidates.json
 
-Input: a JSON array of objects. Only "name" is required; any of these are merged if present:
+Input: a JSON array of objects — or an array of per-worker arrays (`[[...],[...]]`), which is
+flattened one level. Only "name" is required; any of these are merged if present:
   {"name","anchor","method","private"(bool),"why","provenance","sub_sector"}
 
 Output (stdout): JSON array, one entry per distinct company, sorted by source_count desc
@@ -49,6 +50,11 @@ def main():
         sys.exit(1)
     if isinstance(items, dict):                   # tolerate {"candidates":[...]}
         items = items.get("candidates") or items.get("results") or []
+    if isinstance(items, list):                   # flatten worker arrays: [[...],[...]] -> [...]
+        flat = []
+        for el in items:
+            flat.extend(el) if isinstance(el, list) else flat.append(el)
+        items = flat
 
     merged = OrderedDict()
     for it in items:

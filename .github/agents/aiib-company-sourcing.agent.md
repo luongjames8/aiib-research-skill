@@ -12,7 +12,7 @@ description: >-
   This is the MANY-company discovery step; to deep-dive ONE named company use AIIB Company Dossier.
   Sits between AIIB Sector Scan and AIIB Company Dossier. Spawns Source Expander subagents in parallel.
 tools:
-  - runSubagent
+  - agent
   - search/codebase
   - web
   - execute/runInTerminal
@@ -72,7 +72,7 @@ decomposition, source sweep, local-language mining.
 
 1. **Seed.** `found = {}` (the deduped anchors from Step 1 are your round-1 launch points).
 2. **Round.** Spawn a **small batch (~3–4)** of `Source Expander` workers IN PARALLEL using the
-   `runSubagent` tool, each given: one anchor/method to expand **and the current `found` list**, with
+   `agent` tool, each given: one anchor/method to expand **and the current `found` list**, with
    the instruction "return only companies NOT already in this list." Fire all workers in a batch
    concurrently — do not wait for one before starting the next.
 3. **Dedup** the round's returns into `found` by running
@@ -82,7 +82,7 @@ decomposition, source sweep, local-language mining.
    you've hit the round cap (~4–5 rounds), **stop.**
 
 **Workers are `Source Expander` ONLY — NEVER a general-purpose agent.** A general-purpose agent has
-the `runSubagent` tool and can re-delegate into a runaway tree (one real run hit ~2,800 calls /
+the `agent` tool and can re-delegate into a runaway tree (one real run hit ~2,800 calls /
 174 agents). The `Source Expander` agent has WebSearch/WebFetch/Read only — it cannot recurse. **You
 (the orchestrator) loop; the workers never do.**
 

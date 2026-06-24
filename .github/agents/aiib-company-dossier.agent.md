@@ -13,7 +13,7 @@ description: >-
   AIIB Sector Scan, for a LIST of companies use AIIB Company Sourcing. Spawns Company Dossier Researcher
   subagents in parallel.
 tools:
-  - runSubagent
+  - agent
   - search/codebase
   - web
   - execute/runInTerminal
@@ -68,13 +68,13 @@ private/unlisted, fall back to web search. Tag everything by provenance before p
 
 ### Step 2 — Delegate to Company Dossier Researcher subagents, running IN PARALLEL
 
-**You MUST delegate using `runSubagent` when you have the tool — do not produce the dossier yourself in
+**You MUST delegate using `agent` when you have the tool — do not produce the dossier yourself in
 the main context.** As orchestrator your role is: resolve the company(ies), load the sector context,
 spawn one `Company Dossier Researcher` worker per company, and assemble their returns. This keeps the
 expensive orchestrator model out of the token-heavy searching.
 
 **For each company, spawn one `Company Dossier Researcher` subagent.** If researching multiple companies,
-spawn ALL workers IN PARALLEL using the `runSubagent` tool — do not wait for one to finish before
+spawn ALL workers IN PARALLEL using the `agent` tool — do not wait for one to finish before
 starting the next. Cap at **~6 workers concurrently**; more companies than that, dispatch in waves of ~6.
 
 Pass each `Company Dossier Researcher` worker:
@@ -87,7 +87,7 @@ Pass each `Company Dossier Researcher` worker:
 - The dossier template reference: `aiib-research/references/dossier-template.md`
 
 Workers use `Company Dossier Researcher` ONLY — **NEVER a general-purpose agent** (general-purpose has
-`runSubagent` and recurses into a runaway tree; `Company Dossier Researcher` has only
+`agent` and recurses into a runaway tree; `Company Dossier Researcher` has only
 WebSearch/WebFetch/Read, so it cannot recurse).
 
 For a single company you may still delegate the whole dossier to one worker. Only when **no** subagent
