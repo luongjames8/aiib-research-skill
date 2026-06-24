@@ -16,8 +16,7 @@ tools:
   - search/codebase
   - web
   - read/terminalLastCommand
-model:
-  - Claude Sonnet 4
+model: Claude Sonnet 4
 agents:
   - Subsector Researcher
 user-invocable: true

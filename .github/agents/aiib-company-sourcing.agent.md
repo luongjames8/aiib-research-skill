@@ -17,8 +17,7 @@ tools:
   - web
   - execute/runInTerminal
   - read/terminalLastCommand
-model:
-  - Claude Sonnet 4
+model: Claude Sonnet 4
 agents:
   - Source Expander
 user-invocable: true

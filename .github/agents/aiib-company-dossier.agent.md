@@ -18,8 +18,7 @@ tools:
   - web
   - execute/runInTerminal
   - read/terminalLastCommand
-model:
-  - Claude Sonnet 4
+model: Claude Sonnet 4
 agents:
   - Company Dossier Researcher
 user-invocable: true

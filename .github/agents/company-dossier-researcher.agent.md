@@ -5,7 +5,7 @@ description: >-
   catalysts, financials, valuation & scenarios, mandate+ESG, people+management, risk). Spawned by the
   AIIB Company Dossier orchestrator to parallelize across multiple companies. Returns a single
   complete dossier with provenance tags.
-model: ['Claude Sonnet 4']
+model: Claude Sonnet 4
 tools: ['search/codebase', 'web', 'execute/runInTerminal', 'read/terminalLastCommand']
 user-invocable: false
 ---

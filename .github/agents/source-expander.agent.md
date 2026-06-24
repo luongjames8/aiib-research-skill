@@ -4,7 +4,7 @@ description: >-
   Expands ONE anchor (a company, a PE/DFI fund, or a value-chain link) into a list of adjacent,
   mostly-private companies in the same country·sub-sector. Spawned by the AIIB Company Sourcing
   orchestrator to parallelize discovery. Returns a deduped candidate list with how-found + provenance.
-model: ['Claude Sonnet 4']
+model: Claude Sonnet 4
 tools: ['search/codebase', 'web']
 user-invocable: false
 ---

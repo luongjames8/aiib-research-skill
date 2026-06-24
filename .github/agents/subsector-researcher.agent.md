@@ -4,7 +4,7 @@ description: >-
   Researches ONE sub-sector of a country·sector to the full 9-field A–I economics depth. Spawned by
   the AIIB Sector Scan orchestrator to parallelize sub-sector deep-dives. Returns a single A–I block
   with provenance tags.
-model: ['Claude Sonnet 4']
+model: Claude Sonnet 4
 tools: ['search/codebase', 'web', 'execute/runInTerminal', 'read/terminalLastCommand']
 user-invocable: false
 ---
