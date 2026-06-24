@@ -14,7 +14,7 @@ description: >-
 tools:
   - runSubagent
   - search/codebase
-  - web/fetch
+  - web
   - read/terminalLastCommand
 model:
   - Claude Sonnet 4

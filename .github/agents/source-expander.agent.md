@@ -5,7 +5,7 @@ description: >-
   mostly-private companies in the same country·sub-sector. Spawned by the AIIB Company Sourcing
   orchestrator to parallelize discovery. Returns a deduped candidate list with how-found + provenance.
 model: ['Claude Sonnet 4']
-tools: ['search/codebase', 'web/fetch']
+tools: ['search/codebase', 'web']
 user-invocable: false
 ---
 

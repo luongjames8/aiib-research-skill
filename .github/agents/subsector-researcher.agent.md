@@ -5,7 +5,7 @@ description: >-
   the AIIB Sector Scan orchestrator to parallelize sub-sector deep-dives. Returns a single A–I block
   with provenance tags.
 model: ['Claude Sonnet 4']
-tools: ['search/codebase', 'web/fetch', 'read/terminalLastCommand']
+tools: ['search/codebase', 'web', 'execute/runInTerminal', 'read/terminalLastCommand']
 user-invocable: false
 ---
 
