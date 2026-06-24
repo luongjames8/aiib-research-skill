@@ -5,7 +5,7 @@ description: "Mode S — graph-expand sourcing anchors into a ranked longlist of
 
 Run **Mode S: Company Sourcing** for AIIB investment research.
 
-Anchors / sub-sector: $ARGUMENTS
+Anchors / sub-sector: ${input:anchors:e.g. Indonesia · geothermal — expand anchors from a Mode A run}
 
 Execute the full Mode S methodology as defined in the **AIIB Company Sourcing** agent — iterative
 graph-expansion **rounds carrying a found-set** (NOT one parallel per-anchor blast), small batches of

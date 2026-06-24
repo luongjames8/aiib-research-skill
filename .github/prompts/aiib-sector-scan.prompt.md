@@ -5,7 +5,7 @@ description: "Mode A — sector scan of a Country·Sector: enumerate every sub-s
 
 Run **Mode A: Sector Scan** for AIIB investment research.
 
-Country · Sector: $ARGUMENTS
+Country · Sector: ${input:countrySector:e.g. Indonesia · Renewables}
 
 Execute the full Mode A methodology as defined in the **AIIB Sector Scan** agent — including the wide-net
 rule (cover ALL sub-sectors, tier from evidence, never pre-rank and skip), parallel **Subsector Researcher**

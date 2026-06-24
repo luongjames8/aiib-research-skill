@@ -5,7 +5,7 @@ description: "Mode B — build a 7-section investment dossier on one company, sc
 
 Run **Mode B: Company Dossier** for AIIB investment research.
 
-Company: $ARGUMENTS
+Company: ${input:company:e.g. Sunsure Energy · India · C&I solar}
 
 Execute the full Mode B methodology as defined in the **AIIB Company Dossier** agent — load the sub-sector
 context, spawn **one Company Dossier Researcher worker per company** (each produces all 7 sections;
